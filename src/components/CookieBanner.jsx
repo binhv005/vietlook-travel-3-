@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLang } from '../i18n'
 import { getConsent, setConsent } from '../tracking'
@@ -8,7 +8,20 @@ export default function CookieBanner() {
   const { t } = useLang()
   const c = t.cookie
   const [open, setOpen] = useState(() => !getConsent())
-  if (!open) return null
+  // Hiện sau khi trang + font tải xong: tránh thẻ đổi cỡ khi font thay (CLS) và không tranh lượt dựng đầu trang
+  const [shown, setShown] = useState(false)
+  useEffect(() => {
+    if (!open) return
+    let alive = true
+    const show = () => document.fonts.ready.then(() => alive && setShown(true))
+    if (document.readyState === 'complete') show()
+    else window.addEventListener('load', show, { once: true })
+    return () => {
+      alive = false
+      window.removeEventListener('load', show)
+    }
+  }, [open])
+  if (!open || !shown) return null
   const choose = (granted) => {
     setConsent(granted)
     setOpen(false)

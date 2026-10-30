@@ -15,7 +15,14 @@ function ScrollManager() {
   const { pathname, hash } = useLocation()
   useEffect(() => {
     if (hash) {
-      const id = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth' }), 120)
+      // Thử lại tới khi mục xuất hiện (mục có thể nằm trong chunk tải sau, vd. phần dưới trang chủ)
+      let id, tries = 0
+      const go = () => {
+        const el = document.getElementById(hash.slice(1))
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+        else if (++tries < 30) id = setTimeout(go, 100)
+      }
+      id = setTimeout(go, 120)
       return () => clearTimeout(id)
     }
     window.scrollTo({ top: 0, behavior: 'instant' })
