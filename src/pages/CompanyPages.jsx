@@ -85,7 +85,7 @@ export function About() {
         <div className="container-x grid items-center gap-12 lg:grid-cols-[1fr_1fr]">
           <div className="relative mx-auto w-full max-w-xl">
             <img className="aspect-[4/3] w-full rounded-[2rem] object-cover shadow-2xl" src="/img/tour/quang-phu-cau.webp" srcSet={srcSet("/img/tour/quang-phu-cau.webp")} sizes={CARD} alt="" loading="lazy" />
-            <img className="bob absolute -bottom-6 -right-4 size-28 rounded-full shadow-xl ring-[6px] ring-white" src="/logo-mark.png" alt="" />
+            <img className="bob absolute -bottom-6 -right-4 size-28 drop-shadow-xl" src="/logo-mark.png" alt="" />
           </div>
           <div>
             <Eyebrow>{t.topbar}</Eyebrow>
