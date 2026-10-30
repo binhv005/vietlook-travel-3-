@@ -48,6 +48,14 @@ export default function Hero() {
     if (screen !== 'sm' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) video.current?.pause()
   }, [screen])
   const wide = screen !== 'sm'
+  // Trang tải xong mới bắt đầu tải video
+  const [ready, setReady] = useState(() => document.readyState === 'complete')
+  useEffect(() => {
+    if (ready) return
+    const on = () => setReady(true)
+    window.addEventListener('load', on, { once: true })
+    return () => window.removeEventListener('load', on)
+  }, [ready])
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -72,17 +80,20 @@ export default function Hero() {
       {wide ? (
         <video
           ref={video}
-          key={screen}
+          key={`${screen}-${ready}`}
           className="absolute inset-0 -z-20 h-full w-full object-cover saturate-[1.1]"
-          src={screen === 'xl' ? '/video-hero.mp4' : '/video-hero-720.mp4'}
           poster="/video-hero-poster.webp"
           autoPlay
           muted
           loop
           playsInline
-          preload="auto"
+          preload={ready ? 'auto' : 'none'}
           aria-hidden="true"
-        />
+        >
+          {/* Chỉ gắn nguồn sau khi trang tải xong (poster hiện trước) để video không tranh băng thông với nội dung chính */}
+          {ready && <source src={screen === 'xl' ? '/video-hero.webm' : '/video-hero-720.webm'} type="video/webm" />}
+          {ready && <source src={screen === 'xl' ? '/video-hero.mp4' : '/video-hero-720.mp4'} type="video/mp4" />}
+        </video>
       ) : HERO_SLIDES.map((s, i) => (i <= reach ? (
         <img
           key={s.img}
