@@ -8,6 +8,7 @@ import { HeroWaves } from './ui'
 import { srcSet, CARD, FULL } from '../img'
 
 const SLIDE_MS = 5200
+const VIDEO_AFTER = 3 // số ảnh chạy trước khi chuyển sang video (màn ≥ 768px)
 
 // Logo tròn xoay (docs 6.3) – vòng chữ quay quanh logo Vietlook.
 export function RotatingBadge({ text, to = '/contact', className = 'relative block', id = 'badge-circle' }) {
@@ -31,17 +32,37 @@ export default function Hero() {
   const h = t.l3.hero
   const tr = useTr()
   const navigate = useNavigate()
-  const [active, setActive] = useState(0)
+  // tick: số lần đã chuyển slide (không quay vòng) – dùng để biết đã chạy hết 3 ảnh đầu
+  const [tick, setTick] = useState(0)
+  const active = tick % HERO_SLIDES.length
   // Số slide đã gắn ảnh: tăng dần theo slide đang xem (+1 để ảnh kế tải trước), không giảm lại khi quay vòng
   const [reach, setReach] = useState(1)
   if (active + 1 > reach) setReach(active + 1)
   const [form, setForm] = useState({ q: '', where: '', len: '', style: '' })
+  // Màn ≥ 768px: chạy hết 3 ảnh đầu rồi mới chuyển sang video (bắt đầu tải từ ảnh thứ 3, hiện dần khi đã phát);
+  // nhờ vậy video không nằm trong lượt tải đầu trang (PageSpeed). Mobile: chỉ trình chiếu ảnh.
+  const [wide, setWide] = useState(() => window.innerWidth >= 768)
+  useEffect(() => {
+    const on = () => setWide(window.innerWidth >= 768)
+    window.addEventListener('resize', on)
+    return () => window.removeEventListener('resize', on)
+  }, [])
+  const [ready, setReady] = useState(() => document.readyState === 'complete')
+  useEffect(() => {
+    if (ready) return
+    const on = () => setReady(true)
+    window.addEventListener('load', on, { once: true })
+    return () => window.removeEventListener('load', on)
+  }, [ready])
+  const [playing, setPlaying] = useState(false)
+  const loadVideo = wide && ready && tick >= VIDEO_AFTER - 1
+  const showVideo = loadVideo && playing && tick >= VIDEO_AFTER
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const id = setInterval(() => setActive((i) => (i + 1) % HERO_SLIDES.length), SLIDE_MS)
+    if (showVideo || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const id = setInterval(() => setTick((n) => n + 1), SLIDE_MS)
     return () => clearInterval(id)
-  }, [])
+  }, [showVideo])
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
   const submit = (e) => {
@@ -57,15 +78,30 @@ export default function Hero() {
     <section className="relative isolate flex min-h-[760px] flex-col overflow-hidden md:min-h-[115vh]">
       {/* Ảnh nền rực rỡ ghép Bắc → Nam thay cho video xanh của Link 3 (docs mục 4, 5) */}
       {/* Chỉ gắn ảnh cho slide đang hiện + slide kế (tải dần), không tải cả 8 ảnh lúc mở trang */}
+      {/* Mobile dùng bản cắt dọc -m.webp (nét theo chiều cao, nhẹ hơn ảnh ngang 1920px) */}
       {HERO_SLIDES.map((s, i) => (i <= reach ? (
-        <img
-          key={s.img}
-          src={s.img} srcSet={srcSet(s.img)} sizes={FULL}
-          alt={i === active ? s.place : ''}
-          fetchPriority={i === 0 ? 'high' : 'low'}
-          className={`absolute inset-0 -z-20 h-full w-full object-cover saturate-[1.2] transition-opacity duration-[1500ms] ${i === active ? 'ken-burns opacity-100' : 'opacity-0'}`}
-        />
+        <picture key={s.img}>
+          <source media="(max-width: 767px)" srcSet={s.img.replace(/\.webp$/, '-m.webp')} />
+          <img
+            src={s.img} srcSet={srcSet(s.img)} sizes={FULL}
+            alt={i === active ? s.place : ''}
+            fetchPriority={i === 0 ? 'high' : 'low'}
+            className={`absolute inset-0 -z-20 h-full w-full object-cover saturate-[1.2] transition-opacity duration-[1500ms] ${i === active ? 'ken-burns opacity-100' : 'opacity-0'}`}
+          />
+        </picture>
       ) : null))}
+      {loadVideo && (
+        <video
+          className={`absolute inset-0 -z-20 h-full w-full object-cover transition-opacity duration-[1500ms] ${showVideo ? 'opacity-100' : 'opacity-0'}`}
+          src="/video-hero.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          onPlaying={() => setPlaying(true)}
+          aria-hidden="true"
+        />
+      )}
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/60 via-black/30 to-black/10" />
       <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-black/60 to-transparent" />
 
@@ -152,18 +188,18 @@ export default function Hero() {
 
       <RotatingBadge text={t.badge} className="absolute right-[max(16px,calc((100%-77.5rem)/2+24px))] top-44 hidden md:block" />
 
-      <div className="absolute bottom-24 right-[max(16px,calc((100%-77.5rem)/2+24px))] hidden items-center gap-1.5 md:flex">
+      {!showVideo && <div className="absolute bottom-24 right-[max(16px,calc((100%-77.5rem)/2+24px))] hidden items-center gap-1.5 md:flex">
         {HERO_SLIDES.map((s, i) => (
           <button
             key={s.img}
             aria-label={s.place}
             data-pwc-interaction="hero-carousel"
-            onClick={() => setActive(i)}
+            onClick={() => setTick((n) => n + ((i - (n % HERO_SLIDES.length) + HERO_SLIDES.length) % HERO_SLIDES.length))}
             className={`h-2 rounded-full transition-all ${i === active ? 'w-7 bg-accent' : 'w-2 bg-white/60'}`}
           />
         ))}
         <span className="ml-2 inline-flex items-center gap-1 text-sm font-semibold text-white"><Icon name="pin" size={14} /> {tr(HERO_SLIDES[active].place)}</span>
-      </div>
+      </div>}
 
       <HeroWaves />
     </section>
