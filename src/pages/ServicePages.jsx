@@ -508,7 +508,7 @@ export function VisaPage() {
         </ul>
       </section>
 
-      <section className="reveal bg-photo-light py-14 md:py-20">
+      <section className="reveal py-14 md:py-20">
         <div className="container-x grid gap-16 md:gap-20">
           <Steps title={pg.arrivalTitle} steps={pg.arrival} kind="arrival" end={pg.arrivalEnd} />
           <Steps title={pg.departureTitle} steps={pg.departure} kind="departure" end={pg.departureEnd} />
