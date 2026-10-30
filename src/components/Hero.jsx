@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLang } from '../i18n'
 import { useTr } from '../loc'
@@ -36,26 +36,6 @@ export default function Hero() {
   const [reach, setReach] = useState(1)
   if (active + 1 > reach) setReach(active + 1)
   const [form, setForm] = useState({ q: '', where: '', len: '', style: '' })
-  // Màn ≥ 768px: video nền (1080p từ 1280px, 720p ở màn vừa); mobile: trình chiếu ảnh, không tải video (docs mục 3)
-  const [screen, setScreen] = useState(() => (window.innerWidth >= 1280 ? 'xl' : window.innerWidth >= 768 ? 'md' : 'sm'))
-  const video = useRef(null)
-  useEffect(() => {
-    const on = () => setScreen(window.innerWidth >= 1280 ? 'xl' : window.innerWidth >= 768 ? 'md' : 'sm')
-    window.addEventListener('resize', on)
-    return () => window.removeEventListener('resize', on)
-  }, [])
-  useEffect(() => {
-    if (screen !== 'sm' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) video.current?.pause()
-  }, [screen])
-  const wide = screen !== 'sm'
-  // Trang tải xong mới bắt đầu tải video
-  const [ready, setReady] = useState(() => document.readyState === 'complete')
-  useEffect(() => {
-    if (ready) return
-    const on = () => setReady(true)
-    window.addEventListener('load', on, { once: true })
-    return () => window.removeEventListener('load', on)
-  }, [ready])
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -77,23 +57,7 @@ export default function Hero() {
     <section className="relative isolate flex min-h-[760px] flex-col overflow-hidden md:min-h-[115vh]">
       {/* Ảnh nền rực rỡ ghép Bắc → Nam thay cho video xanh của Link 3 (docs mục 4, 5) */}
       {/* Chỉ gắn ảnh cho slide đang hiện + slide kế (tải dần), không tải cả 8 ảnh lúc mở trang */}
-      {wide ? (
-        <video
-          ref={video}
-          key={`${screen}-${ready}`}
-          className="absolute inset-0 -z-20 h-full w-full object-cover saturate-[1.1]"
-          poster="/video-hero-poster.webp"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload={ready ? 'auto' : 'none'}
-          aria-hidden="true"
-        >
-          {/* Chỉ gắn nguồn sau khi trang tải xong (poster hiện trước) để video không tranh băng thông với nội dung chính */}
-          {ready && <source src={screen === 'xl' ? '/video-hero.mp4' : '/video-hero-720.mp4'} type="video/mp4" />}
-        </video>
-      ) : HERO_SLIDES.map((s, i) => (i <= reach ? (
+      {HERO_SLIDES.map((s, i) => (i <= reach ? (
         <img
           key={s.img}
           src={s.img} srcSet={srcSet(s.img)} sizes={FULL}
@@ -188,7 +152,7 @@ export default function Hero() {
 
       <RotatingBadge text={t.badge} className="absolute right-[max(16px,calc((100%-77.5rem)/2+24px))] top-44 hidden md:block" />
 
-      {!wide && <div className="absolute bottom-24 right-[max(16px,calc((100%-77.5rem)/2+24px))] hidden items-center gap-1.5 md:flex">
+      <div className="absolute bottom-24 right-[max(16px,calc((100%-77.5rem)/2+24px))] hidden items-center gap-1.5 md:flex">
         {HERO_SLIDES.map((s, i) => (
           <button
             key={s.img}
@@ -199,7 +163,7 @@ export default function Hero() {
           />
         ))}
         <span className="ml-2 inline-flex items-center gap-1 text-sm font-semibold text-white"><Icon name="pin" size={14} /> {tr(HERO_SLIDES[active].place)}</span>
-      </div>}
+      </div>
 
       <HeroWaves />
     </section>
