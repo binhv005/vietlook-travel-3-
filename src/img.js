@@ -12,27 +12,32 @@ export const FULL = '100vw'
 
 // Ảnh object-fit: cover trong khung khác tỉ lệ (ô dọc chứa ảnh ngang, nền tràn màn hình…) cần bản rộng hơn bề ngang khung.
 // Tính bề rộng thật cần = max(rộng khung, cao khung × tỉ lệ ảnh) rồi đặt lại sizes để trình duyệt chọn đúng bản ảnh.
+// Kích thước khung lấy từ ResizeObserver (không tự đọc layout → không buộc reflow); chạy cả trước khi ảnh lazy tải
+// (tạm đoán tỉ lệ 3:2) để trình duyệt chọn ngay bản vừa khung thay vì bản theo sizes mặc định rồi tải lại.
 export function autoSizes() {
+  const box = new WeakMap()
   const fix = (img) => {
-    if (!img.srcset || !img.naturalWidth) return
-    const r = img.getBoundingClientRect()
-    if (!r.width || !r.height) return
-    const ratio = img.naturalWidth / img.naturalHeight
-    const cover = getComputedStyle(img).objectFit === 'cover'
-    const need = Math.ceil(cover ? Math.max(r.width, r.height * ratio) : r.width)
+    const b = box.get(img)
+    if (!img.srcset || !b || !b.width || !b.height) return
+    const w = +img.getAttribute('width'), h = +img.getAttribute('height')
+    const ratio = img.naturalWidth ? img.naturalWidth / img.naturalHeight : w && h ? w / h : 1.5
+    const cover = img.classList.contains('object-cover')
+    const need = Math.ceil(cover ? Math.max(b.width, b.height * ratio) : b.width)
     const cur = parseInt(img.dataset.need || '0', 10)
     if (need > cur) {
       img.dataset.need = need
       img.sizes = `${need}px`
     }
   }
-  const ro = new ResizeObserver((entries) => entries.forEach((e) => fix(e.target)))
+  const ro = new ResizeObserver((entries) => entries.forEach((e) => {
+    box.set(e.target, e.contentRect)
+    fix(e.target)
+  }))
   const watch = (img) => {
     if (img.dataset.sized) return
     img.dataset.sized = '1'
     ro.observe(img)
-    if (img.complete) fix(img)
-    else img.addEventListener('load', () => fix(img), { once: true })
+    if (!img.complete) img.addEventListener('load', () => fix(img), { once: true })
   }
   document.querySelectorAll('img[srcset]').forEach(watch)
   new MutationObserver(() => document.querySelectorAll('img[srcset]:not([data-sized])').forEach(watch)).observe(document.body, { childList: true, subtree: true })

@@ -4,6 +4,23 @@ import { useLang } from '../i18n'
 import { CONTACT } from '../data'
 import Icon from './Icon'
 
+// Bản đồ văn phòng: chỉ gắn iframe Google Maps khi khách cuộn gần tới footer (Maps tải ~400KB JS, không để tranh lượt tải đầu trang).
+function OfficeMap() {
+  const box = useRef(null)
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    if (show) return
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setShow(true), { rootMargin: '300px' })
+    io.observe(box.current)
+    return () => io.disconnect()
+  }, [show])
+  return (
+    <div ref={box} className="h-48 w-full overflow-hidden rounded-2xl bg-white/5 lg:h-56">
+      {show && <iframe title="Vietlook Travel office" className="size-full border-0" src="https://www.google.com/maps?cid=12890319484623913190&z=17&output=embed" />}
+    </div>
+  )
+}
+
 // Logo phương thức thanh toán (docs 2b – yêu cầu của 9Pay).
 const PAY = [
   ['Visa', '/pay/visa.svg', 'h-6'],
@@ -88,12 +105,7 @@ export function Footer() {
               <Icon name="directions" size={16} /> {f3.directions}
             </a>
           </div>
-          <iframe
-            title="Vietlook Travel office"
-            className="h-48 w-full rounded-2xl border-0 lg:h-56"
-            loading="lazy"
-            src="https://www.google.com/maps?cid=12890319484623913190&z=17&output=embed"
-          />
+          <OfficeMap />
         </div>
       </div>
 

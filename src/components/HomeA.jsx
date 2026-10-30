@@ -17,7 +17,7 @@ export function ServicesL1() {
   const s = t.l1.services
   return (
     <section className="reveal relative isolate overflow-hidden pb-12 pt-6 font-l1 md:pb-20 md:pt-8">
-      <img className="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-center opacity-[0.16] [mask-image:linear-gradient(to_bottom,transparent,#000_45%)]" alt="" src="/l1/halong-bay.webp" srcSet={srcSet("/l1/halong-bay.webp")} sizes={CARD} />
+      <img className="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-center opacity-[0.16] [mask-image:linear-gradient(to_bottom,transparent,#000_45%)]" alt="" src="/l1/halong-bay-1024.webp" loading="lazy" />
       <div className="container-x">
         <div className="mb-8 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
           <div>
@@ -184,7 +184,7 @@ export function OtherTile({ className = '' }) {
       <div className="relative flex items-center gap-4">
         <strong data-anim="count" className="font-card text-5xl font-bold"><RollNumber value={`${OTHER_LOCATIONS.count}+`} /></strong>
         <div className="flex">
-          {OTHER_LOCATIONS.avatars.map((src) => <img key={src} src={src} srcSet={srcSet(src)} sizes={CARD} alt="" loading="lazy" className="-ml-3 size-11 rounded-full border-2 border-white object-cover first:ml-0" />)}
+          {OTHER_LOCATIONS.avatars.map((src) => <img key={src} src={src.replace(/\.webp$/, '-thumb.webp')} width="128" height="128" alt="" loading="lazy" className="-ml-3 size-11 rounded-full border-2 border-white object-cover first:ml-0" />)}
         </div>
       </div>
       <div className="relative">
@@ -289,7 +289,7 @@ export function HeritageDrum({ bg = 'bg-[#f6efe4] pt-10 md:pt-16' }) {
       <div className="relative aspect-[4/3] max-h-[56rem] w-full sm:aspect-[1672/941]">
         {/* Trống đồng cao theo khung (khung trải hết bề ngang, cao tối đa 56rem) */}
         <div className="absolute left-1/2 top-[3%] aspect-square h-[78%] -translate-x-1/2">
-          <img src="/trong-dong.webp" alt="" className="absolute inset-0 size-full animate-spin-slower rounded-full mix-blend-multiply" loading="lazy" />
+          <img src="/trong-dong.webp" srcSet="/trong-dong-480.webp 480w, /trong-dong.webp 800w" sizes="(max-width: 640px) 60vw, 45vw" alt="" className="absolute inset-0 size-full animate-spin-slower rounded-full mix-blend-multiply" loading="lazy" />
           {/* vòng sáng đỏ + vòng chữ quay quanh logo */}
           <div className="absolute inset-[21%] rounded-full bg-[radial-gradient(circle,#fff_48%,#f9c9c0_57%,#ef6f5c_66%,#e8503d_86%,#e3412f_100%)] shadow-[0_0_48px_14px_rgba(232,80,61,0.4)]" />
           <svg viewBox="0 0 300 300" className="drum-ring absolute inset-[21%] animate-[spin_26s_linear_infinite_reverse]" aria-hidden="true">
