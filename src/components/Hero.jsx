@@ -78,17 +78,16 @@ export default function Hero() {
     <section className="relative isolate flex min-h-[760px] flex-col overflow-hidden md:min-h-[115vh]">
       {/* Ảnh nền rực rỡ ghép Bắc → Nam thay cho video xanh của Link 3 (docs mục 4, 5) */}
       {/* Chỉ gắn ảnh cho slide đang hiện + slide kế (tải dần), không tải cả 8 ảnh lúc mở trang */}
-      {/* Mobile dùng bản cắt dọc -m.webp (nét theo chiều cao, nhẹ hơn ảnh ngang 1920px) */}
+      {/* Mobile dùng bản cắt dọc -m.webp (nét theo chiều cao, nhẹ hơn ảnh ngang 1920px); ảnh đầu hiện bản nhẹ -s.webp
+          trước (LCP), trang tải xong mới đổi sang bản nét. Chọn ảnh bằng JS thay vì <picture> để không tải thừa bản ngang. */}
       {HERO_SLIDES.map((s, i) => (i <= reach ? (
-        <picture key={s.img}>
-          <source media="(max-width: 767px)" srcSet={s.img.replace(/\.webp$/, '-m.webp')} />
-          <img
-            src={s.img} srcSet={srcSet(s.img)} sizes={FULL}
-            alt={i === active ? s.place : ''}
-            fetchPriority={i === 0 ? 'high' : 'low'}
-            className={`absolute inset-0 -z-20 h-full w-full object-cover saturate-[1.2] transition-opacity duration-[1500ms] ${i === active ? 'ken-burns opacity-100' : 'opacity-0'}`}
-          />
-        </picture>
+        <img
+          key={s.img}
+          {...(wide ? { src: s.img, srcSet: srcSet(s.img), sizes: FULL } : { src: s.img.replace(/\.webp$/, i === 0 && !ready ? '-s.webp' : '-m.webp') })}
+          alt={i === active ? s.place : ''}
+          fetchPriority={i === 0 ? 'high' : 'low'}
+          className={`absolute inset-0 -z-20 h-full w-full object-cover saturate-[1.2] transition-opacity duration-[1500ms] ${i === active ? 'ken-burns opacity-100' : 'opacity-0'}`}
+        />
       ) : null))}
       {loadVideo && (
         <video
