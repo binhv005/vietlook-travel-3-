@@ -231,17 +231,125 @@ const GROUPS = [
   ['extra', 'groupExtra'],
 ]
 
-function Steps({ title, steps, icon }) {
+// Minh hoạ 2 màu theo logo (đỏ + xanh dương) cho các bước fast-track
+const SR = 'var(--color-accent-500)'
+const SB = 'var(--color-brand)'
+const STEP_ART = {
+  landing: (
+    <>
+      <path d="M8 50h48" stroke={SR} strokeWidth="4" strokeLinecap="round" />
+      <path d="M14 56h10M30 56h10M46 56h6" stroke={SR} strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M12 22l4-2 10 6 14-6c3-1.2 6 .4 6.8 2.6l-28 14-8-3 5-3-6-5z" fill={SB} transform="rotate(14 32 30)" />
+    </>
+  ),
+  board: (
+    <>
+      <circle cx="32" cy="14" r="7" fill={SB} />
+      <path d="M18 60c0-12 6-20 14-20s14 8 14 20z" fill={SB} />
+      <rect x="12" y="30" width="40" height="18" rx="3" fill={SR} />
+      <path d="M20 39h24" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+    </>
+  ),
+  meet: (
+    <>
+      <circle cx="20" cy="18" r="7" fill={SB} />
+      <path d="M6 58c0-12 6-22 14-22s14 10 14 22z" fill={SB} />
+      <circle cx="44" cy="18" r="7" fill={SR} />
+      <path d="M30 58c0-12 6-22 14-22s14 10 14 22z" fill={SR} />
+      <path d="M26 44l6 4 6-4" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    </>
+  ),
+  docs: (
+    <>
+      <rect x="10" y="10" width="30" height="42" rx="4" fill={SB} />
+      <circle cx="25" cy="27" r="7" fill="none" stroke="#fff" strokeWidth="2.5" />
+      <path d="M17 42h16" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
+      <rect x="32" y="32" width="24" height="18" rx="4" fill={SR} />
+      <circle cx="44" cy="41" r="5" fill="#fff" />
+      <rect x="38" y="28" width="8" height="5" rx="1.5" fill={SR} />
+    </>
+  ),
+  lane: (
+    <>
+      <path d="M10 56V20M54 56V20" stroke={SB} strokeWidth="4" strokeLinecap="round" />
+      <rect x="6" y="12" width="52" height="10" rx="3" fill={SB} />
+      <path d="M22 50l10-10 10 10M32 40v-14" stroke={SR} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    </>
+  ),
+  clock: (
+    <>
+      <circle cx="32" cy="34" r="22" fill={SB} />
+      <circle cx="32" cy="34" r="17" fill="#fff" />
+      <path d="M32 22v12l8 6" stroke={SR} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d="M22 8h20" stroke={SB} strokeWidth="4" strokeLinecap="round" />
+    </>
+  ),
+  counter: (
+    <>
+      <rect x="6" y="34" width="52" height="22" rx="3" fill={SB} />
+      <rect x="10" y="20" width="22" height="8" rx="2" fill={SB} />
+      <rect x="38" y="16" width="18" height="22" rx="3" fill={SR} />
+      <path d="M43 16v-5h8v5" stroke={SR} strokeWidth="3" fill="none" />
+      <path d="M14 44h18" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+    </>
+  ),
+  takeoff: (
+    <>
+      <path d="M8 54h48" stroke={SR} strokeWidth="4" strokeLinecap="round" />
+      <path d="M12 40l4-2 10 6 14-6c3-1.2 6 .4 6.8 2.6l-28 14-8-3 5-3-6-5z" fill={SB} transform="rotate(-20 32 40)" />
+    </>
+  ),
+}
+const STEP_ICONS = {
+  arrival: ['landing', 'board', 'meet', 'docs', 'lane'],
+  departure: ['clock', 'counter', 'board', 'docs', 'takeoff'],
+}
+
+// Quy trình fast-track dạng sơ đồ (kiểu "How does it work?"): nhãn tiêu đề, các vòng tròn minh hoạ nối nét đứt,
+// đường đứt vòng về chấm kết thúc. Mobile: danh sách dọc nối nét đứt.
+function Steps({ title, steps, kind, end }) {
+  const icons = STEP_ICONS[kind]
+  const circle = (i) => (
+    <span className="relative z-10 grid size-24 shrink-0 place-items-center rounded-full bg-[#eef4fb] ring-8 ring-page transition group-hover:-translate-y-1 md:size-32">
+      <svg viewBox="0 0 64 64" className="size-12 md:size-16" aria-hidden="true">{STEP_ART[icons[i]]}</svg>
+      <span className="absolute -right-1 -top-1 grid size-8 place-items-center rounded-full bg-accent-500 font-card text-sm font-bold text-white shadow">{i + 1}</span>
+    </span>
+  )
   return (
-    <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 md:p-8">
-      <h3 className="flex items-center gap-3 font-card text-xl font-bold"><span className="grid size-11 place-items-center rounded-xl bg-brand-light text-brand"><Icon name={icon} size={22} /></span>{title}</h3>
-      <ol className="stagger mt-6 grid gap-3">
+    <div className="relative">
+      <h3 className="relative z-10 inline-flex rounded-xl bg-white px-6 py-3 font-card text-xl font-bold text-ink shadow-sm ring-1 ring-black/5 md:text-2xl">{title}</h3>
+
+      {/* Màn rộng: hàng ngang */}
+      <div className="relative mt-10 hidden md:block">
+        <span className="absolute left-[10%] right-[10%] top-16 border-t-[3px] border-dashed border-brand/25" aria-hidden="true" />
+        <span className="absolute -top-10 left-[calc(10%-1px)] h-[4.5rem] border-l-[3px] border-dashed border-brand/25" aria-hidden="true" />
+        <ol className="grid grid-cols-5 gap-4">
+          {steps.map((s, i) => (
+            <li key={s} className="group flex flex-col items-center text-center">
+              {circle(i)}
+              <p className="mt-5 max-w-[13rem] text-[15px] font-medium leading-snug text-ink/85">{s}</p>
+            </li>
+          ))}
+        </ol>
+        {/* Đường đứt vòng từ bước cuối về chấm kết thúc */}
+        <div className="relative mx-[10%] mt-6 h-12 rounded-b-3xl border-x-[3px] border-b-[3px] border-dashed border-brand/25" aria-hidden="true" />
+        <p className="relative -mt-3 ml-[calc(10%-11px)] flex items-center gap-3 font-card text-lg font-semibold text-ink">
+          <span className="size-6 rounded-full bg-accent-500 ring-4 ring-accent-500/20" /> {end}
+        </p>
+      </div>
+
+      {/* Mobile: danh sách dọc */}
+      <ol className="relative mt-6 grid gap-5 md:hidden">
+        <span className="absolute bottom-6 left-12 top-6 border-l-[3px] border-dashed border-brand/25" aria-hidden="true" />
         {steps.map((s, i) => (
-          <li key={s} className="flex items-center gap-4 rounded-2xl bg-sand px-4 py-3">
-            <span className="font-serif text-3xl font-bold text-accent">{String(i + 1).padStart(2, '0')}</span>
-            <span className="font-medium">{s}</span>
+          <li key={s} className="group relative flex items-center gap-4">
+            {circle(i)}
+            <p className="text-[15px] font-medium leading-snug text-ink/85">{s}</p>
           </li>
         ))}
+        <li className="relative flex items-center gap-4 pl-9 font-card font-semibold text-ink">
+          <span className="relative z-10 size-6 rounded-full bg-accent-500 ring-4 ring-accent-500/20" /> {end}
+        </li>
       </ol>
     </div>
   )
@@ -361,9 +469,9 @@ export function VisaPage() {
       </section>
 
       <section className="reveal bg-photo-light py-14 md:py-20">
-        <div className="stagger container-x grid gap-6 lg:grid-cols-2">
-          <Steps title={pg.arrivalTitle} steps={pg.arrival} icon="planeLanding" />
-          <Steps title={pg.departureTitle} steps={pg.departure} icon="plane" />
+        <div className="container-x grid gap-16 md:gap-20">
+          <Steps title={pg.arrivalTitle} steps={pg.arrival} kind="arrival" end={pg.arrivalEnd} />
+          <Steps title={pg.departureTitle} steps={pg.departure} kind="departure" end={pg.departureEnd} />
         </div>
       </section>
 
