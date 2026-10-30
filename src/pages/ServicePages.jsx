@@ -231,72 +231,113 @@ const GROUPS = [
   ['extra', 'groupExtra'],
 ]
 
-// Minh hoạ 2 màu theo logo (đỏ + xanh dương) cho các bước fast-track
+// Minh hoạ nhiều màu, chủ đạo đỏ + xanh dương theo logo, thêm vàng / xanh trời / xanh lá / màu da cho sinh động
 const SR = 'var(--color-accent-500)'
 const SB = 'var(--color-brand)'
+const SY = '#f6b93b'
+const SL = '#8ec5f5'
+const SG = '#3fae6a'
+const SK = '#f3c8a8'
+const SD = '#0b2c4d'
 const STEP_ART = {
   landing: (
     <>
-      <path d="M8 50h48" stroke={SR} strokeWidth="4" strokeLinecap="round" />
-      <path d="M14 56h10M30 56h10M46 56h6" stroke={SR} strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M12 22l4-2 10 6 14-6c3-1.2 6 .4 6.8 2.6l-28 14-8-3 5-3-6-5z" fill={SB} transform="rotate(14 32 30)" />
+      <path d="M4 52c10-6 18-6 28 0s18 6 28 0v12H4z" fill={SY} />
+      <path d="M6 46h52" stroke={SD} strokeWidth="3" strokeLinecap="round" />
+      <path d="M12 50h8M28 50h8M44 50h8" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="50" cy="12" r="6" fill={SY} />
+      <path d="M10 20l4-2 10 6 14-6c3-1.2 6 .4 6.8 2.6l-28 14-8-3 5-3-6-5z" fill={SB} transform="rotate(14 30 28)" />
+      <path d="M30 27l8-10 4 1-5 11z" fill={SR} transform="rotate(14 30 28)" />
     </>
   ),
   board: (
     <>
-      <circle cx="32" cy="14" r="7" fill={SB} />
-      <path d="M18 60c0-12 6-20 14-20s14 8 14 20z" fill={SB} />
-      <rect x="12" y="30" width="40" height="18" rx="3" fill={SR} />
-      <path d="M20 39h24" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+      <path d="M22 14c0-6 4-9 10-9s10 3 10 9v2H22z" fill={SD} />
+      <rect x="18" y="13" width="28" height="3" rx="1.5" fill={SD} />
+      <circle cx="32" cy="20" r="7" fill={SK} />
+      <path d="M16 62c0-13 7-22 16-22s16 9 16 22z" fill={SB} />
+      <path d="M30 40l2 6 2-6" fill="#fff" />
+      <rect x="10" y="32" width="44" height="18" rx="3" fill={SY} stroke={SD} strokeWidth="2" />
+      <path d="M18 41h28" stroke={SR} strokeWidth="3.5" strokeLinecap="round" />
+      <circle cx="12" cy="41" r="3.5" fill={SK} />
+      <circle cx="52" cy="41" r="3.5" fill={SK} />
     </>
   ),
   meet: (
     <>
-      <circle cx="20" cy="18" r="7" fill={SB} />
-      <path d="M6 58c0-12 6-22 14-22s14 10 14 22z" fill={SB} />
-      <circle cx="44" cy="18" r="7" fill={SR} />
-      <path d="M30 58c0-12 6-22 14-22s14 10 14 22z" fill={SR} />
-      <path d="M26 44l6 4 6-4" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <circle cx="19" cy="18" r="7" fill={SK} />
+      <path d="M12 16c1-5 4-7 7-7s7 2 7 6l-3-1-4 2-4-2z" fill={SD} />
+      <path d="M5 60c0-12 6-22 14-22s14 10 14 22z" fill={SB} />
+      <circle cx="45" cy="18" r="7" fill={SK} />
+      <path d="M38 17c0-6 3-9 7-9s7 3 7 9c-2-2-4-3-7-3s-5 1-7 3z" fill="#7a4a2a" />
+      <path d="M31 60c0-12 6-22 14-22s14 10 14 22z" fill={SR} />
+      <rect x="49" y="44" width="10" height="13" rx="2" fill={SY} />
+      <path d="M24 46c4 3 12 3 16 0" stroke={SK} strokeWidth="5" strokeLinecap="round" fill="none" />
+      <circle cx="32" cy="7" r="3" fill={SG} />
     </>
   ),
   docs: (
     <>
-      <rect x="10" y="10" width="30" height="42" rx="4" fill={SB} />
-      <circle cx="25" cy="27" r="7" fill="none" stroke="#fff" strokeWidth="2.5" />
-      <path d="M17 42h16" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
-      <rect x="32" y="32" width="24" height="18" rx="4" fill={SR} />
-      <circle cx="44" cy="41" r="5" fill="#fff" />
-      <rect x="38" y="28" width="8" height="5" rx="1.5" fill={SR} />
+      <rect x="8" y="8" width="32" height="44" rx="4" fill={SB} />
+      <rect x="12" y="12" width="24" height="36" rx="2" fill={SD} opacity=".35" />
+      <circle cx="24" cy="26" r="7" fill="none" stroke={SY} strokeWidth="2.5" />
+      <path d="M17 26h14M24 19v14" stroke={SY} strokeWidth="1.5" />
+      <path d="M15 42h18" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
+      <rect x="30" y="32" width="28" height="22" rx="4" fill={SR} />
+      <rect x="36" y="27" width="10" height="6" rx="1.5" fill={SR} />
+      <circle cx="44" cy="43" r="7" fill="#fff" />
+      <circle cx="44" cy="43" r="4" fill={SL} />
+      <circle cx="53" cy="36" r="1.8" fill={SY} />
+      <circle cx="50" cy="56" r="7" fill={SG} />
+      <path d="M46.5 56l2.5 2.5 4.5-5" stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" />
     </>
   ),
   lane: (
     <>
-      <path d="M10 56V20M54 56V20" stroke={SB} strokeWidth="4" strokeLinecap="round" />
-      <rect x="6" y="12" width="52" height="10" rx="3" fill={SB} />
-      <path d="M22 50l10-10 10 10M32 40v-14" stroke={SR} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d="M14 62L24 26h16l10 36z" fill={SL} />
+      <path d="M32 30v8M32 44v8M32 56v6" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
+      <rect x="8" y="12" width="48" height="12" rx="3" fill={SB} />
+      <path d="M16 18h10" stroke={SY} strokeWidth="3" strokeLinecap="round" />
+      <path d="M36 18l4-3v6zM44 18l4-3v6z" fill={SY} />
+      <path d="M10 24v38M54 24v38" stroke={SD} strokeWidth="4" strokeLinecap="round" />
+      <path d="M24 46l8-8 8 8" stroke={SR} strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
     </>
   ),
   clock: (
     <>
-      <circle cx="32" cy="34" r="22" fill={SB} />
-      <circle cx="32" cy="34" r="17" fill="#fff" />
-      <path d="M32 22v12l8 6" stroke={SR} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <path d="M22 8h20" stroke={SB} strokeWidth="4" strokeLinecap="round" />
+      <path d="M22 6h20" stroke={SD} strokeWidth="4" strokeLinecap="round" />
+      <path d="M32 6v6" stroke={SD} strokeWidth="4" />
+      <path d="M50 14l4 4" stroke={SR} strokeWidth="4" strokeLinecap="round" />
+      <circle cx="32" cy="36" r="24" fill={SB} />
+      <circle cx="32" cy="36" r="19" fill="#fff" />
+      <path d="M32 36V17a19 19 0 0116.5 28.5z" fill={SY} opacity=".55" />
+      <path d="M32 22v14l9 6" stroke={SR} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <circle cx="32" cy="36" r="2.5" fill={SD} />
     </>
   ),
   counter: (
     <>
-      <rect x="6" y="34" width="52" height="22" rx="3" fill={SB} />
-      <rect x="10" y="20" width="22" height="8" rx="2" fill={SB} />
-      <rect x="38" y="16" width="18" height="22" rx="3" fill={SR} />
-      <path d="M43 16v-5h8v5" stroke={SR} strokeWidth="3" fill="none" />
-      <path d="M14 44h18" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+      <rect x="4" y="8" width="30" height="10" rx="2" fill={SD} />
+      <path d="M9 13h20" stroke={SY} strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="20" cy="27" r="6" fill={SK} />
+      <path d="M10 40c0-6 4-9 10-9s10 3 10 9z" fill={SG} />
+      <rect x="4" y="38" width="38" height="20" rx="3" fill={SB} />
+      <path d="M10 46h18" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+      <rect x="40" y="24" width="20" height="30" rx="4" fill={SR} />
+      <path d="M45 24v-6h10v6" stroke={SD} strokeWidth="3" fill="none" />
+      <path d="M46 30v18M54 30v18" stroke="#fff" strokeOpacity=".6" strokeWidth="2" />
+      <circle cx="44" cy="58" r="3" fill={SD} />
+      <circle cx="56" cy="58" r="3" fill={SD} />
     </>
   ),
   takeoff: (
     <>
-      <path d="M8 54h48" stroke={SR} strokeWidth="4" strokeLinecap="round" />
-      <path d="M12 40l4-2 10 6 14-6c3-1.2 6 .4 6.8 2.6l-28 14-8-3 5-3-6-5z" fill={SB} transform="rotate(-20 32 40)" />
+      <path d="M8 18c4-5 10-5 14 0 3-3 8-3 10 1 4 0 6 3 5 6H8c-3-1-3-6 0-7z" fill={SL} />
+      <path d="M4 56c10-5 18-5 28 0s18 5 28 0v8H4z" fill={SG} />
+      <path d="M6 52h52" stroke={SD} strokeWidth="3" strokeLinecap="round" />
+      <path d="M12 42l4-2 10 6 14-6c3-1.2 6 .4 6.8 2.6l-28 14-8-3 5-3-6-5z" fill={SB} transform="rotate(-22 32 42)" />
+      <path d="M32 40l9-8 4 1-6 10z" fill={SR} transform="rotate(-22 32 42)" />
+      <path d="M44 22l4-2M48 28l5-1" stroke={SY} strokeWidth="2.5" strokeLinecap="round" />
     </>
   ),
 }
@@ -310,8 +351,8 @@ const STEP_ICONS = {
 function Steps({ title, steps, kind, end }) {
   const icons = STEP_ICONS[kind]
   const circle = (i) => (
-    <span className="relative z-10 grid size-24 shrink-0 place-items-center rounded-full bg-[#eef4fb] ring-8 ring-page transition group-hover:-translate-y-1 md:size-32">
-      <svg viewBox="0 0 64 64" className="size-12 md:size-16" aria-hidden="true">{STEP_ART[icons[i]]}</svg>
+    <span className="relative z-10 grid size-24 shrink-0 place-items-center transition group-hover:-translate-y-1 md:size-36">
+      <svg viewBox="0 0 64 64" className="size-20 drop-shadow-[0_6px_10px_rgba(11,44,77,0.18)] md:size-32" aria-hidden="true">{STEP_ART[icons[i]]}</svg>
       <span className="absolute -right-1 -top-1 grid size-8 place-items-center rounded-full bg-accent-500 font-card text-sm font-bold text-white shadow">{i + 1}</span>
     </span>
   )
@@ -321,11 +362,10 @@ function Steps({ title, steps, kind, end }) {
 
       {/* Màn rộng: hàng ngang */}
       <div className="relative mt-10 hidden md:block">
-        <span className="absolute left-[10%] right-[10%] top-16 border-t-[3px] border-dashed border-brand/25" aria-hidden="true" />
-        <span className="absolute -top-10 left-[calc(10%-1px)] h-[4.5rem] border-l-[3px] border-dashed border-brand/25" aria-hidden="true" />
+        <span className="absolute -top-10 left-[calc(10%-1px)] h-[5rem] border-l-[3px] border-dashed border-brand/25" aria-hidden="true" />
         <ol className="grid grid-cols-5 gap-4">
           {steps.map((s, i) => (
-            <li key={s} className="group flex flex-col items-center text-center">
+            <li key={s} className="group relative flex flex-col items-center text-center after:absolute after:left-[calc(50%+4.75rem)] after:top-[4.5rem] after:w-[calc(100%-8.5rem)] after:border-t-[3px] after:border-dashed after:border-brand/25 last:after:hidden">
               {circle(i)}
               <p className="mt-5 max-w-[13rem] text-[15px] font-medium leading-snug text-ink/85">{s}</p>
             </li>
