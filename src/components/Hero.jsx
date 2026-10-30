@@ -91,7 +91,7 @@ export default function Hero() {
           aria-hidden="true"
         >
           {/* Chỉ gắn nguồn sau khi trang tải xong (poster hiện trước) để video không tranh băng thông với nội dung chính */}
-          {ready && <source src="/video-hero.mp4" type="video/mp4" />}
+          {ready && <source src={screen === 'xl' ? '/video-hero.mp4' : '/video-hero-720.mp4'} type="video/mp4" />}
         </video>
       ) : HERO_SLIDES.map((s, i) => (i <= reach ? (
         <img
