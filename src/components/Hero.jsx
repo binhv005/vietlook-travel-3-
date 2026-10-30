@@ -176,9 +176,9 @@ export default function Hero() {
         </div>
       </div>
 
-      <RotatingBadge text={t.badge} className="absolute right-[max(16px,calc((100%-1240px)/2+24px))] top-44 hidden md:block" />
+      <RotatingBadge text={t.badge} className="absolute right-[max(16px,calc((100%-77.5rem)/2+24px))] top-44 hidden md:block" />
 
-      {!wide && <div className="absolute bottom-24 right-[max(16px,calc((100%-1240px)/2+24px))] hidden items-center gap-1.5 md:flex">
+      {!wide && <div className="absolute bottom-24 right-[max(16px,calc((100%-77.5rem)/2+24px))] hidden items-center gap-1.5 md:flex">
         {HERO_SLIDES.map((s, i) => (
           <button
             key={s.img}

@@ -118,7 +118,7 @@ export function PageHero({ title: rawTitle, sub: rawSub, img, crumbs = [], cente
         {sub && <p className={`mt-4 line-clamp-3 max-w-2xl text-lg text-white/90 ${center ? 'mx-auto' : ''}`}>{sub}</p>}
       </div>
       {/* Vòng tròn xoay giống banner trang chủ – góc dưới bên phải, trên đường sóng (màn ≥ 768px) */}
-      <RotatingBadge text={t.badge} id="badge-circle-page" className="absolute bottom-32 right-[max(16px,calc((100%-1240px)/2+24px))] hidden md:block" />
+      <RotatingBadge text={t.badge} id="badge-circle-page" className="absolute bottom-32 right-[max(16px,calc((100%-77.5rem)/2+24px))] hidden md:block" />
       <HeroWaves />
     </section>
   )

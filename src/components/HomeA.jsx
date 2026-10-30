@@ -66,7 +66,7 @@ export function B2BL2() {
         <div className="absolute inset-0 bg-gradient-to-r from-brand-950/90 via-brand-950/70 to-brand-950/30" />
       </div>
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_20%,rgba(23,128,193,0.45),transparent_50%),radial-gradient(circle_at_90%_90%,rgba(238,59,53,0.25),transparent_45%)]" />
-      <div data-anim="sides" className="relative mx-auto grid w-full max-w-[1400px] items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-10">
+      <div data-anim="sides" className="relative mx-auto grid w-full max-w-[87.5rem] items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-10">
         <div data-anim="zoom" className="relative mx-auto h-[320px] w-full max-w-lg sm:h-[440px]">
           {/* 2 khung vệt cọ (mask SVG) chồng so le – mỗi khung tự chuyển ảnh mỗi 2s; khung 2 lệch 2 ảnh để luôn khác khung 1 */}
           {[
@@ -246,7 +246,7 @@ export function StylesL2() {
   return (
     <section className="reveal relative isolate overflow-hidden bg-[#141210] py-14 text-white lg:py-[4.5rem]" id="styles">
       <img className="absolute inset-0 -z-10 h-full w-full object-cover opacity-[0.22] grayscale-[60%]" alt="" src="/img/tour/ha-long.webp" srcSet={srcSet("/img/tour/ha-long.webp")} sizes={CARD} loading="lazy" />
-      <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-10">
+      <div className="mx-auto w-full max-w-[87.5rem] px-4 sm:px-6 lg:px-10">
         <header className="mx-auto mb-8 max-w-4xl text-center lg:mb-10">
           <h2 className="inline-block font-card text-3xl font-bold uppercase text-amber-brand sm:text-[2rem]">
             {t.styles.eyebrow}
@@ -286,8 +286,9 @@ export function HeritageDrum({ bg = 'bg-[#f6efe4] pt-10 md:pt-16' }) {
         <img src="/mountain.webp" alt="" loading="lazy" className="h-[115%] w-full object-cover object-top" />
       </div>
       {/* Sân khấu kiểu Villages Vietnam: trống đồng + logo ở giữa, dải di tích VN đứng phía trước */}
-      <div className="relative mx-auto aspect-[4/3] w-full max-w-[1500px] sm:aspect-[1672/941]">
-        <div className="absolute left-1/2 top-[3%] aspect-square w-[66%] -translate-x-1/2 sm:w-[44%]">
+      <div className="relative aspect-[4/3] max-h-[56rem] w-full sm:aspect-[1672/941]">
+        {/* Trống đồng cao theo khung (khung trải hết bề ngang, cao tối đa 56rem) */}
+        <div className="absolute left-1/2 top-[3%] aspect-square h-[78%] -translate-x-1/2">
           <img src="/trong-dong.webp" alt="" className="absolute inset-0 size-full animate-spin-slower rounded-full mix-blend-multiply" loading="lazy" />
           {/* vòng sáng đỏ + vòng chữ quay quanh logo */}
           <div className="absolute inset-[21%] rounded-full bg-[radial-gradient(circle,#fff_48%,#f9c9c0_57%,#ef6f5c_66%,#e8503d_86%,#e3412f_100%)] shadow-[0_0_48px_14px_rgba(232,80,61,0.4)]" />
