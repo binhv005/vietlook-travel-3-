@@ -4,6 +4,7 @@ import { LangProvider } from './i18n'
 import App from './App'
 import './styles.css'
 import { initTracking } from './tracking'
+import { autoSizes } from './img'
 
 initTracking()
 
@@ -18,3 +19,5 @@ createRoot(document.getElementById('root')).render(
     </LangProvider>
   </StrictMode>,
 )
+
+autoSizes()

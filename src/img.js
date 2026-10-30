@@ -6,6 +6,34 @@ export const sized = (src, w) => (src && RESPONSIVE.test(src) ? src.replace(/\.w
 
 export const srcSet = (src) => (src && RESPONSIVE.test(src) ? `${sized(src, 640)} 640w, ${sized(src, 1024)} 1024w, ${src} 1920w` : undefined)
 
-// sizes dùng chung
+// sizes dùng chung (giá trị khởi đầu; autoSizes chỉnh lại theo khung thật)
 export const CARD = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
 export const FULL = '100vw'
+
+// Ảnh object-fit: cover trong khung khác tỉ lệ (ô dọc chứa ảnh ngang, nền tràn màn hình…) cần bản rộng hơn bề ngang khung.
+// Tính bề rộng thật cần = max(rộng khung, cao khung × tỉ lệ ảnh) rồi đặt lại sizes để trình duyệt chọn đúng bản ảnh.
+export function autoSizes() {
+  const fix = (img) => {
+    if (!img.srcset || !img.naturalWidth) return
+    const r = img.getBoundingClientRect()
+    if (!r.width || !r.height) return
+    const ratio = img.naturalWidth / img.naturalHeight
+    const cover = getComputedStyle(img).objectFit === 'cover'
+    const need = Math.ceil(cover ? Math.max(r.width, r.height * ratio) : r.width)
+    const cur = parseInt(img.dataset.need || '0', 10)
+    if (need > cur) {
+      img.dataset.need = need
+      img.sizes = `${need}px`
+    }
+  }
+  const ro = new ResizeObserver((entries) => entries.forEach((e) => fix(e.target)))
+  const watch = (img) => {
+    if (img.dataset.sized) return
+    img.dataset.sized = '1'
+    ro.observe(img)
+    if (img.complete) fix(img)
+    else img.addEventListener('load', () => fix(img), { once: true })
+  }
+  document.querySelectorAll('img[srcset]').forEach(watch)
+  new MutationObserver(() => document.querySelectorAll('img[srcset]:not([data-sized])').forEach(watch)).observe(document.body, { childList: true, subtree: true })
+}

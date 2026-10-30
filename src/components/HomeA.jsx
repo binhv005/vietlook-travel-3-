@@ -236,7 +236,7 @@ export function RegionsL3() {
 // ---------- Link 2: loại hình tour (bố cục + màu theo Link 2) ----------
 const STYLE_COLS = [
   [['luxury', 'emperor-cruises', 'lg:h-72'], ['signature', 'khamphavedepvietnamhuehoiansapa', 'lg:h-52']],
-  [['culture', 'tournonchung', 'lg:h-52'], ['family', 'rach-vem-fishing-village-1', 'lg:h-72']],
+  [['culture', 'lantern-making-be-a-real-farmer-at-tra-que-village', 'lg:h-52'], ['family', 'rach-vem-fishing-village-1', 'lg:h-72']],
   [['honeymoon', 'glaming', 'lg:h-72'], ['classic', 'ha-long', 'lg:h-52']],
   [['photography', 'the-best-lotus-viewing-spots-in-ninh-binh', 'lg:h-52'], ['tailor', 'top20diadiemdulichninhbinhbannenbiet', 'lg:h-72']],
 ]

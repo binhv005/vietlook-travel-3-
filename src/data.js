@@ -158,7 +158,7 @@ export const PACKAGES = [
 export const STYLES = [
   { key: 'luxury', img: T('emperor-cruises') },
   { key: 'signature', img: T('hoi-an-9-copy') },
-  { key: 'culture', img: T('tournonchung') },
+  { key: 'culture', img: T('lantern-making-be-a-real-farmer-at-tra-que-village') },
   { key: 'family', img: T('bay-mau-coconut-forest') },
   { key: 'honeymoon', img: T('glaming') },
   { key: 'classic', img: T('ha-long') },
@@ -266,7 +266,7 @@ export const NEWS = [
 // Khối "Culture & Cruises" của Link 3 (giá văn hoá lấy từ Link 3; du thuyền chờ báo giá).
 export const EXPERIENCES = {
   culture: [
-    { title: 'Half-Day Tour Conical Hat Making, Cooking Class And Cycling', img: T('tournonchung'), price: 40 },
+    { title: 'Lantern Making – Be A Real Farmer At Tra Que Village', img: T('lantern-making-be-a-real-farmer-at-tra-que-village'), price: null },
     { title: 'Ha Noi Cultural Day Trip', img: T('cho-dong-xuan-ha-noi'), price: 68 },
     { title: 'Hanoi’s Insider Good Morning – Afternoon Tour', img: T('old-quarter-ta-hien-1'), price: 34 },
     { title: 'Hanoi Bicycle Backstreet Tour 4.5 Hours', img: T('west-lake-hanoi'), price: 42 },
@@ -274,7 +274,7 @@ export const EXPERIENCES = {
   cruises: [
     { title: 'Emperor Cruises Ha Long Bay 2 Days 1 Night', img: T('emperor-cruises'), price: null },
     { title: 'Ha Long Bay Day Cruise', img: T('tourduthuyenhalong1ngay1-2'), price: null },
-    { title: 'Saigon River Cocktail Cruise', img: T('coktail-crusie'), price: null },
+    { title: 'Halong Paradise Cruise 2 Days 1 Night', img: T('ha-long'), price: null },
     { title: 'Nha Trang Sunset Cruise', img: T('sunset-1'), price: null },
   ],
 }
