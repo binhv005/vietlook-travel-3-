@@ -307,7 +307,7 @@ export function HeritageDrum({ bg = 'bg-[#f6efe4] pt-10 md:pt-16' }) {
           </svg>
           <div className="absolute inset-[33%] grid place-items-center rounded-full bg-white text-center shadow-inner">
             <div className="grid justify-items-center gap-2">
-              <img src="/logo.png" alt="Vietlook Travel" className="w-[78%]" />
+              <img src="/logo.png" width="548" height="356" alt="Vietlook Travel" className="h-auto w-[78%]" loading="lazy" />
               <Link to="/about" className="rounded-lg border border-brand px-4 py-1.5 text-xs font-semibold text-brand transition hover:bg-brand hover:text-white sm:text-sm">{t.nav.about}</Link>
             </div>
           </div>

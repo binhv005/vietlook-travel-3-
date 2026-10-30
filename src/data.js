@@ -29,7 +29,6 @@ export const HERO_SLIDES = [
   { img: T('tam-coc-bich-dong'), place: 'Ninh Binh', region: 'north' },
   { img: T('hoi-an-9-copy'), place: 'Hoi An', region: 'central' },
   { img: T('da-nang'), place: 'Da Nang', region: 'central' },
-  { img: T('hue-tour'), place: 'Hue', region: 'central' },
   { img: T('bai-tranh-beach-1'), place: 'Nha Trang', region: 'south' },
   { img: T('phu-quoc'), place: 'Phu Quoc', region: 'south' },
 ]

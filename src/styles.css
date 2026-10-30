@@ -295,8 +295,19 @@ section[data-bg='paper'].curve-bottom::after {
     transform: scale(1.12);
   }
 }
+/* Bắt đầu từ opacity .01 thay vì 0: nhìn như nhau, nhưng Chrome tính chữ hero là đã hiện ngay (LCP desktop) */
+@keyframes hero-up {
+  0% {
+    opacity: 0.01;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
 .hero-in > * {
-  animation: 0.9s cubic-bezier(0.22, 1, 0.36, 1) both fade-up;
+  animation: 0.9s cubic-bezier(0.22, 1, 0.36, 1) both hero-up;
 }
 .hero-in > :nth-child(2) {
   animation-delay: 0.15s;
