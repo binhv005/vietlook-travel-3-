@@ -6,6 +6,7 @@ import { PACKAGES, REGIONS, OTHER_LOCATIONS, STYLES, VEHICLES } from '../data'
 import Icon from './Icon'
 import { SplitHead, CenterHead, RollNumber } from './ui'
 import { FeaturedTour, TourCard } from './TourCards'
+import { srcSet, CARD, FULL } from '../img'
 
 // ---------- Link 1: khối 3 dịch vụ ----------
 const SERVICE_IMG = ['/img/tour/tam-coc-bich-dong.webp', '/l1/minivan-golf.webp', '/img/tour/airport-pick-up-one-way.webp']
@@ -16,7 +17,7 @@ export function ServicesL1() {
   const s = t.l1.services
   return (
     <section className="reveal relative isolate overflow-hidden pb-12 pt-6 font-l1 md:pb-20 md:pt-8">
-      <img className="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-center opacity-[0.16] [mask-image:linear-gradient(to_bottom,transparent,#000_45%)]" alt="" src="/l1/halong-bay.webp" />
+      <img className="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-center opacity-[0.16] [mask-image:linear-gradient(to_bottom,transparent,#000_45%)]" alt="" src="/l1/halong-bay.webp" srcSet={srcSet("/l1/halong-bay.webp")} sizes={CARD} />
       <div className="container-x">
         <div className="mb-8 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
           <div>
@@ -29,7 +30,7 @@ export function ServicesL1() {
           {s.items.map(([title, desc, cta], i) => (
             <Link key={title} to={SERVICE_TO[i]} className="l1-card group flex h-full flex-col">
               <div className="overflow-hidden">
-                <img className="aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-105" alt="" src={SERVICE_IMG[i]} loading="lazy" />
+                <img className="aspect-[16/9] w-full object-cover transition duration-700 group-hover:scale-105" alt="" src={SERVICE_IMG[i]} srcSet={srcSet(SERVICE_IMG[i])} sizes={CARD} loading="lazy" />
               </div>
               <div className="flex flex-1 flex-col p-6">
                 <h3 className="text-xl font-bold group-hover:text-brand-700">{title}</h3>
@@ -61,7 +62,7 @@ export function B2BL2() {
   return (
     <section className="reveal relative isolate scroll-mt-20 overflow-hidden bg-brand-950 py-14 font-card text-white lg:py-[4.5rem]" id="b2b">
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <img className="absolute inset-0 h-full w-full object-cover" alt="" src="/img/tour/tourduthuyenhalong1ngay1-2.webp" loading="lazy" />
+        <img className="absolute inset-0 h-full w-full object-cover" alt="" src="/img/tour/tourduthuyenhalong1ngay1-2.webp" srcSet={srcSet("/img/tour/tourduthuyenhalong1ngay1-2.webp")} sizes={CARD} loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-950/90 via-brand-950/70 to-brand-950/30" />
       </div>
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_20%,rgba(23,128,193,0.45),transparent_50%),radial-gradient(circle_at_90%_90%,rgba(238,59,53,0.25),transparent_45%)]" />
@@ -75,7 +76,7 @@ export function B2BL2() {
             <div key={mask} className={`absolute drop-shadow-[0_18px_30px_rgba(0,0,0,0.45)] ${pos}`}>
               <div className="size-full [mask-repeat:no-repeat] [mask-size:100%_100%]" style={{ maskImage: `url(${mask})`, WebkitMaskImage: `url(${mask})` }}>
                 {B2B_SLIDES.map((src, i) => (
-                  <img key={src} className={`absolute inset-0 size-full object-cover transition-opacity duration-1000 ${i === (slide + offset) % B2B_SLIDES.length ? 'opacity-100' : 'opacity-0'}`} alt="" src={src} loading="lazy" />
+                  <img key={src} className={`absolute inset-0 size-full object-cover transition-opacity duration-1000 ${i === (slide + offset) % B2B_SLIDES.length ? 'opacity-100' : 'opacity-0'}`} alt="" src={src} srcSet={srcSet(src)} sizes={CARD} loading="lazy" />
                 ))}
               </div>
             </div>
@@ -156,7 +157,7 @@ export function DestTile({ d, region, className = '' }) {
   const tr = useTr()
   return (
     <Link to={`/tours?region=${region}`} className={`group relative block h-72 overflow-hidden rounded-[1.75rem] md:h-80 ${className}`}>
-      <img className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" src={d.img} alt={tr(d.name)} loading="lazy" />
+      <img className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" src={d.img} srcSet={srcSet(d.img)} sizes={CARD} alt={tr(d.name)} loading="lazy" />
       <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/30 to-brand-dark/10 transition group-hover:from-brand-dark/95" />
       <div className="absolute inset-x-0 top-0 p-5 text-white md:p-6">
         <h3 className="font-serif text-3xl font-semibold drop-shadow md:text-4xl">{tr(d.name)}</h3>
@@ -183,7 +184,7 @@ export function OtherTile({ className = '' }) {
       <div className="relative flex items-center gap-4">
         <strong data-anim="count" className="font-card text-5xl font-bold"><RollNumber value={`${OTHER_LOCATIONS.count}+`} /></strong>
         <div className="flex">
-          {OTHER_LOCATIONS.avatars.map((src) => <img key={src} src={src} alt="" loading="lazy" className="-ml-3 size-11 rounded-full border-2 border-white object-cover first:ml-0" />)}
+          {OTHER_LOCATIONS.avatars.map((src) => <img key={src} src={src} srcSet={srcSet(src)} sizes={CARD} alt="" loading="lazy" className="-ml-3 size-11 rounded-full border-2 border-white object-cover first:ml-0" />)}
         </div>
       </div>
       <div className="relative">
@@ -244,7 +245,7 @@ export function StylesL2() {
   const { t } = useLang()
   return (
     <section className="reveal relative isolate overflow-hidden bg-[#141210] py-14 text-white lg:py-[4.5rem]" id="styles">
-      <img className="absolute inset-0 -z-10 h-full w-full object-cover opacity-[0.22] grayscale-[60%]" alt="" src="/img/tour/ha-long.webp" loading="lazy" />
+      <img className="absolute inset-0 -z-10 h-full w-full object-cover opacity-[0.22] grayscale-[60%]" alt="" src="/img/tour/ha-long.webp" srcSet={srcSet("/img/tour/ha-long.webp")} sizes={CARD} loading="lazy" />
       <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-10">
         <header className="mx-auto mb-8 max-w-4xl text-center lg:mb-10">
           <h2 className="inline-block font-card text-3xl font-bold uppercase text-amber-brand sm:text-[2rem]">
@@ -258,7 +259,7 @@ export function StylesL2() {
             <div key={i} className="stagger flex flex-col gap-3 sm:gap-4">
               {col.map(([key, img, h]) => (
                 <Link key={key} to="/tours" className={`group relative block h-44 overflow-hidden rounded-md sm:h-56 ${h}`}>
-                  <img className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110" alt="" src={`/img/tour/${img}.webp`} loading="lazy" />
+                  <img className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110" alt="" src={`/img/tour/${img}.webp`} srcSet={srcSet(`/img/tour/${img}.webp`)} sizes={CARD} loading="lazy" />
                   <span className="absolute inset-0 bg-black/15 transition-colors duration-500 group-hover:bg-black/40" />
                   <span className="absolute inset-0 grid place-items-center px-3 text-center font-card text-lg font-semibold uppercase leading-tight [text-shadow:0_2px_8px_rgba(0,0,0,.7)] sm:text-xl">
                     {t.styles[key][0]}
@@ -282,12 +283,12 @@ export function HeritageDrum({ bg = 'bg-[#f6efe4] pt-10 md:pt-16' }) {
     <section className={`reveal relative isolate overflow-hidden ${bg}`} id="heritage">
       {/* Nền núi mờ sau trống đồng (như mẫu); ảnh cao 115% + neo trên để cắt dải watermark ở đáy ảnh gốc, mép trên mờ dần vào khối phía trên */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,#000_35%)]">
-        <img src="/mountain.jpg" alt="" loading="lazy" className="h-[115%] w-full object-cover object-top" />
+        <img src="/mountain.webp" alt="" loading="lazy" className="h-[115%] w-full object-cover object-top" />
       </div>
       {/* Sân khấu kiểu Villages Vietnam: trống đồng + logo ở giữa, dải di tích VN đứng phía trước */}
       <div className="relative mx-auto aspect-[4/3] w-full max-w-[1500px] sm:aspect-[1672/941]">
         <div className="absolute left-1/2 top-[3%] aspect-square w-[66%] -translate-x-1/2 sm:w-[44%]">
-          <img src="/trong-dong.jpg" alt="" className="absolute inset-0 size-full animate-spin-slower rounded-full mix-blend-multiply" loading="lazy" />
+          <img src="/trong-dong.webp" alt="" className="absolute inset-0 size-full animate-spin-slower rounded-full mix-blend-multiply" loading="lazy" />
           {/* vòng sáng đỏ + vòng chữ quay quanh logo */}
           <div className="absolute inset-[21%] rounded-full bg-[radial-gradient(circle,#fff_48%,#f9c9c0_57%,#ef6f5c_66%,#e8503d_86%,#e3412f_100%)] shadow-[0_0_48px_14px_rgba(232,80,61,0.4)]" />
           <svg viewBox="0 0 300 300" className="drum-ring absolute inset-[21%] animate-[spin_26s_linear_infinite_reverse]" aria-hidden="true">
@@ -333,7 +334,7 @@ function VehicleCard({ v }) {
   return (
     <div className="group flex h-full min-w-0 flex-col rounded-3xl border border-[#efe7da] bg-[#f7f3ec] p-5 shadow-[0_10px_30px_-18px_rgba(80,60,20,0.35)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgba(80,60,20,0.45)]">
       <div className="flex aspect-[16/7] items-center justify-center overflow-hidden rounded-2xl">
-        <img className={`size-full transition duration-500 group-hover:scale-105 ${shown === v.img && v.studio ? 'object-contain mix-blend-multiply' : 'rounded-2xl object-cover'}`} alt={v.name} src={shown} loading="lazy" />
+        <img className={`size-full transition duration-500 group-hover:scale-105 ${shown === v.img && v.studio ? 'object-contain mix-blend-multiply' : 'rounded-2xl object-cover'}`} alt={v.name} src={shown} srcSet={srcSet(shown)} sizes={CARD} loading="lazy" />
       </div>
       <div className="mt-4 flex flex-1 flex-col px-1">
         <h3 className="text-xl font-bold text-ink">{tr(v.name)}</h3>
@@ -343,7 +344,7 @@ function VehicleCard({ v }) {
             {photos.slice(0, 5).map((src) => (
               <li key={src}>
                 <button type="button" onClick={() => setShown(src)} data-pwc-interaction={`car-${v.key}`} className="block w-full" aria-label={`${v.name} photo`}>
-                  <img className={`aspect-[4/3] w-full rounded-lg bg-white object-cover ring-2 transition ${shown === src ? 'ring-[#c9a24a]' : 'ring-transparent hover:ring-[#e6d3a8]'}`} alt="" src={src} loading="lazy" />
+                  <img className={`aspect-[4/3] w-full rounded-lg bg-white object-cover ring-2 transition ${shown === src ? 'ring-[#c9a24a]' : 'ring-transparent hover:ring-[#e6d3a8]'}`} alt="" src={src} srcSet={srcSet(src)} sizes={CARD} loading="lazy" />
                 </button>
               </li>
             ))}
@@ -403,9 +404,9 @@ export function VisaL1() {
   const v = t.l1.visa
   return (
     <section className="reveal relative isolate overflow-hidden py-14 font-l1 md:py-24">
-      <img className="pointer-events-none absolute right-[2%] top-1/2 -z-10 hidden h-[90%] w-auto max-w-none -translate-y-1/2 select-none opacity-25 md:right-[6%] md:block" alt="" src="/l1/vn-map.webp" />
+      <img className="pointer-events-none absolute right-[2%] top-1/2 -z-10 hidden h-[90%] w-auto max-w-none -translate-y-1/2 select-none opacity-25 md:right-[6%] md:block" alt="" src="/l1/vn-map.webp" srcSet={srcSet("/l1/vn-map.webp")} sizes={CARD} />
       <div data-anim="sides" className="container-x grid items-center gap-12 md:grid-cols-[0.8fr_1.2fr]">
-        <img className="mx-auto aspect-[4/5] w-full max-w-sm rounded-2xl object-cover shadow-xl" alt={v.title} src="/img/tour/welcome-vietlook.webp" loading="lazy" />
+        <img className="mx-auto aspect-[4/5] w-full max-w-sm rounded-2xl object-cover shadow-xl" alt={v.title} src="/img/tour/welcome-vietlook.webp" srcSet={srcSet("/img/tour/welcome-vietlook.webp")} sizes={CARD} loading="lazy" />
         <div>
           <p className="l1-eyebrow mb-3">{v.eyebrow}</p>
           <h2 className="l1-h-section">{v.title}</h2>
@@ -442,9 +443,9 @@ const STEP_ICONS = ['card', 'route', 'map', 'wallet', 'globe']
 export function HowToBook() {
   const { t } = useLang()
   return (
-    <section className="reveal relative isolate overflow-hidden bg-white py-12 md:py-20" id="how-to-book">
+    <section className="reveal relative isolate overflow-hidden bg-page py-12 md:py-20" id="how-to-book">
       {/* Ảnh nền mờ (Tràng An) – mép trên/dưới tan vào nền trắng để chữ và số vẫn rõ */}
-      <img className="pointer-events-none absolute inset-0 -z-10 size-full object-cover opacity-[0.18] [mask-image:linear-gradient(to_bottom,transparent,#000_25%,#000_75%,transparent)]" alt="" src="/l3/services-bg.webp" loading="lazy" />
+      <img className="pointer-events-none absolute inset-0 -z-10 size-full object-cover opacity-[0.18] [mask-image:linear-gradient(to_bottom,transparent,#000_25%,#000_75%,transparent)]" alt="" src="/l3/services-bg.webp" srcSet={srcSet("/l3/services-bg.webp")} sizes={CARD} loading="lazy" />
       <div className="container-x">
         <h2 className="text-center font-serif text-3xl font-bold text-ink md:text-4xl">{t.howto.title}</h2>
         <ol className="mt-8 grid gap-3 lg:hidden">

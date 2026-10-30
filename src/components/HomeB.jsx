@@ -26,6 +26,7 @@ function DateBadge({ date, big = false }) {
   )
 }
 import { SplitHead, CenterHead, ArrowSide, Eyebrow, WaveDivider } from './ui'
+import { srcSet, CARD, FULL } from '../img'
 
 // ---------- 6 lý do (nội dung Link 2) – kiểu lưới icon minh hoạ 2 màu theo logo (đỏ + xanh dương), không khung thẻ ----------
 const R = 'var(--color-accent-500)'
@@ -121,8 +122,8 @@ export function CultureL3() {
   return (
     <section className="reveal reveal-fx relative isolate scroll-mt-20 overflow-hidden py-12 md:py-20" id="culture">
       {/* Nền: cánh đồng lúa hoàng hôn (ảnh của khối "Your trip, your way" cũ) + lớp trắng mờ để chữ tối vẫn rõ */}
-      <img className="pointer-events-none absolute inset-0 -z-20 size-full object-cover" src="/l3/tailor-bg.webp" alt="" loading="lazy" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/90 via-white/75 to-white/45" />
+      <img className="pointer-events-none absolute inset-0 -z-20 size-full object-cover" src="/l3/tailor-bg.webp" srcSet={srcSet("/l3/tailor-bg.webp")} sizes={CARD} alt="" loading="lazy" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-page/90 via-page/75 to-page/45" />
       <div className="container-x grid items-center gap-10 lg:grid-cols-[1fr_2.1fr] lg:gap-14">
         <div>
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">{l.eyebrow}</p>
@@ -154,7 +155,7 @@ export function CultureL3() {
         <div key={tab} data-pwc-controlled="culture-tabs" className="grid h-[520px] animate-[fade-up_.5s_ease] grid-cols-2 grid-rows-[1fr_1fr] gap-3 sm:h-[560px] sm:grid-cols-3 md:gap-4">
           {EXPERIENCES[tab].map((x, i) => (
             <Link key={x.title} to="/contact" className={`group relative overflow-hidden rounded-2xl ${GRID[i]}`}>
-              <img className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" src={x.img} alt={x.title} loading="lazy" />
+              <img className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" src={x.img} srcSet={srcSet(x.img)} sizes={CARD} alt={x.title} loading="lazy" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
               <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-brand">{l.tag[tab]}</span>
               <div className="absolute inset-x-0 bottom-0 p-4 text-white md:p-5">
@@ -184,7 +185,7 @@ export function GuideCard({ g, compact = false }) {
     return (
       <Link to={`/travel-guide/${g.slug}`} className="group block">
         <div className="aspect-[3/2] overflow-hidden rounded-xl bg-gradient-to-br from-brand to-brand-dark">
-          <img className="size-full object-cover transition duration-500 group-hover:scale-105" src={g.img} alt={g.title} loading="lazy" />
+          <img className="size-full object-cover transition duration-500 group-hover:scale-105" src={g.img} srcSet={srcSet(g.img)} sizes={CARD} alt={g.title} loading="lazy" />
         </div>
         <h3 className="mt-3 line-clamp-2 text-sm font-bold leading-snug text-ink group-hover:text-brand">{tr(g.title)}</h3>
       </Link>
@@ -193,7 +194,7 @@ export function GuideCard({ g, compact = false }) {
   return (
     <Link to={`/travel-guide/${g.slug}`} className="group flex flex-col overflow-hidden rounded-xl border border-line bg-white transition hover:-translate-y-1 hover:shadow-lg">
       <div className="aspect-[3/2] overflow-hidden bg-gradient-to-br from-brand to-brand-dark">
-        <img className="size-full object-cover transition duration-500 group-hover:scale-105" src={g.img} alt={g.title} loading="lazy" />
+        <img className="size-full object-cover transition duration-500 group-hover:scale-105" src={g.img} srcSet={srcSet(g.img)} sizes={CARD} alt={g.title} loading="lazy" />
       </div>
       <div className="flex flex-1 flex-col p-4 sm:p-5">
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-bold uppercase tracking-wide">
@@ -233,12 +234,12 @@ export function PlanFormL3() {
         <div className="grid gap-6 rounded-3xl bg-white p-3 shadow-xl sm:p-4 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10">
           {/* Khối thông tin */}
           <div className="relative isolate overflow-hidden rounded-2xl bg-brand-dark p-7 text-white sm:p-10">
-            <img className="absolute inset-0 -z-20 size-full object-cover" src="/img/tour/hoang-su-phi-ha-giang.webp" alt="" loading="lazy" />
+            <img className="absolute inset-0 -z-20 size-full object-cover" src="/img/tour/hoang-su-phi-ha-giang.webp" srcSet={srcSet("/img/tour/hoang-su-phi-ha-giang.webp")} sizes={CARD} alt="" loading="lazy" />
             <div className="absolute inset-0 -z-10 bg-gradient-to-br from-brand-dark/90 via-brand-dark/75 to-brand-dark/55" />
             <div className="pointer-events-none absolute -right-3 -top-3 hidden h-48 w-48 lg:block xl:h-56 xl:w-56" aria-hidden="true">
               {PLAN_PHOTOS.map(([img, pos, rot]) => (
                 <div key={img} className={`absolute bg-white p-1.5 pb-4 shadow-xl ${pos} ${rot}`}>
-                  <img className="aspect-[4/3] w-full object-cover" src={`/img/tour/${img}.webp`} alt="" loading="lazy" />
+                  <img className="aspect-[4/3] w-full object-cover" src={`/img/tour/${img}.webp`} srcSet={srcSet(`/img/tour/${img}.webp`)} sizes={CARD} alt="" loading="lazy" />
                 </div>
               ))}
               <span className="absolute left-1/2 top-1 size-7 -translate-x-1/2 rounded-full bg-gradient-to-br from-[#ff6b5e] to-accent-500 shadow-[0_4px_8px_rgba(0,0,0,0.4)]" />
@@ -345,7 +346,7 @@ export function ReviewCard({ r }) {
   const tr = useTr()
   return (
     <article className="relative w-[85%] shrink-0 snap-start overflow-hidden rounded-2xl bg-[#fffaf1] shadow-md sm:w-[46%] lg:w-[calc((100%-2.5rem)/3)]">
-      <img className="aspect-[16/9] w-full object-cover" src={r.img} alt={r.place} loading="lazy" />
+      <img className="aspect-[16/9] w-full object-cover" src={r.img} srcSet={srcSet(r.img)} sizes={CARD} alt={r.place} loading="lazy" />
       <div className="flex min-h-[15rem] flex-col px-6 pb-6 pt-5">
         <h3 className="font-card text-lg font-bold leading-snug text-ink">{tr(r.title)}</h3>
         <p className="mt-2 text-[15px] leading-relaxed text-muted">{tr(r.text)}</p>
@@ -446,7 +447,7 @@ export function ReviewsNewsL3() {
         <div className="stagger grid gap-8 lg:grid-cols-[1.15fr_1fr]">
           <Link className="group block" to={`/travel-guide/${lead.slug}`}>
             <div className="relative aspect-[16/10] overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-brand-dark transition duration-500 group-hover:opacity-90">
-              <img className="absolute inset-0 h-full w-full object-cover" src={lead.img} alt={lead.title} loading="lazy" />
+              <img className="absolute inset-0 h-full w-full object-cover" src={lead.img} srcSet={srcSet(lead.img)} sizes={CARD} alt={lead.title} loading="lazy" />
             </div>
             <div className="mt-5 flex items-center gap-4">
               <DateBadge date={lead.date} big />
@@ -459,7 +460,7 @@ export function ReviewsNewsL3() {
               <li key={x.slug}>
                 <Link className="group flex gap-5 py-5 first:pt-0" to={`/travel-guide/${x.slug}`}>
                   <div className="relative aspect-[4/3] w-32 shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-brand to-brand-dark md:w-40">
-                    <img className="absolute inset-0 h-full w-full object-cover" src={x.img} alt={x.title} loading="lazy" />
+                    <img className="absolute inset-0 h-full w-full object-cover" src={x.img} srcSet={srcSet(x.img)} sizes={CARD} alt={x.title} loading="lazy" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-3">

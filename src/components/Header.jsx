@@ -4,6 +4,7 @@ import { useLang } from '../i18n'
 import { useTr } from '../loc'
 import { CONTACT, REGIONS, STYLES, PACKAGES, CAR_CITIES } from '../data'
 import Icon from './Icon'
+import { srcSet, CARD, FULL } from '../img'
 
 const T = (name) => `/img/tour/${name}.webp`
 
@@ -93,7 +94,7 @@ function Tile({ tile, fill = false }) {
   const tr = useTr()
   return (
     <Link to={tile.to} className={`group/tile relative block overflow-hidden bg-brand-dark ${fill ? 'h-full min-h-28' : 'aspect-[16/9]'}`}>
-      <img className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover/tile:scale-110" src={tile.img} alt={tile.label} loading="lazy" />
+      <img className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover/tile:scale-110" src={tile.img} srcSet={srcSet(tile.img)} sizes={CARD} alt={tile.label} loading="lazy" />
       <span className="absolute inset-0 bg-black/35 transition group-hover/tile:bg-black/15" />
       <span className="absolute inset-0 grid place-items-center px-4 text-center text-sm font-bold uppercase leading-tight tracking-wide text-white [overflow-wrap:anywhere] [text-shadow:0_2px_8px_rgba(0,0,0,.6)] [text-wrap:balance] xl:text-base">
         {tr(tile.label)}
@@ -203,6 +204,8 @@ export default function Header() {
   const { pathname, search } = useLocation()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [opened, setOpened] = useState({})
+  const openMenu = (key) => setOpened((o) => (o[key] ? o : { ...o, [key]: true }))
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -255,12 +258,13 @@ export default function Header() {
         <nav className="hidden lg:block" aria-label="Main">
           <ul className="flex items-center whitespace-nowrap text-sm font-bold uppercase tracking-wide">
             {NAV.map((item) => (
-              <li key={item.key} className={item.panel ? 'group' : ''} data-pwc-interaction={item.panel ? `menu-${item.key}` : undefined}>
+              <li key={item.key} className={item.panel ? 'group' : ''} data-pwc-interaction={item.panel ? `menu-${item.key}` : undefined} onMouseEnter={() => openMenu(item.key)} onFocus={() => openMenu(item.key)}>
                 <NavLink to={item.to} className={item.key === 'packages' ? 'block rounded-md px-2 py-7 hover:text-accent xl:px-3' : linkCls} aria-haspopup={item.panel ? 'true' : undefined}>
                   {item.label}
                   {item.panel && <Chev />}
                 </NavLink>
-                {item.panel}
+                {/* Menu thả xuống chỉ dựng (và tải ảnh) sau lần rê chuột đầu tiên */}
+                {opened[item.key] && item.panel}
               </li>
             ))}
           </ul>

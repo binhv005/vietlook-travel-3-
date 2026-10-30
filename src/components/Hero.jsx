@@ -5,6 +5,7 @@ import { useTr } from '../loc'
 import { HERO_SLIDES, RATINGS } from '../data'
 import Icon, { BrandIcon, Stars } from './Icon'
 import { HeroWaves } from './ui'
+import { srcSet, CARD, FULL } from '../img'
 
 const SLIDE_MS = 5200
 
@@ -31,6 +32,9 @@ export default function Hero() {
   const tr = useTr()
   const navigate = useNavigate()
   const [active, setActive] = useState(0)
+  // Số slide đã gắn ảnh: tăng dần theo slide đang xem (+1 để ảnh kế tải trước), không giảm lại khi quay vòng
+  const [reach, setReach] = useState(1)
+  if (active + 1 > reach) setReach(active + 1)
   const [form, setForm] = useState({ q: '', where: '', len: '', style: '' })
 
   useEffect(() => {
@@ -52,16 +56,16 @@ export default function Hero() {
   return (
     <section className="relative isolate flex min-h-[760px] flex-col overflow-hidden md:min-h-[115vh]">
       {/* Ảnh nền rực rỡ ghép Bắc → Nam thay cho video xanh của Link 3 (docs mục 4, 5) */}
-      {HERO_SLIDES.map((s, i) => (
+      {/* Chỉ gắn ảnh cho slide đang hiện + slide kế (tải dần), không tải cả 8 ảnh lúc mở trang */}
+      {HERO_SLIDES.map((s, i) => (i <= reach ? (
         <img
           key={s.img}
-          src={s.img}
+          src={s.img} srcSet={srcSet(s.img)} sizes={FULL}
           alt={i === active ? s.place : ''}
-          loading={i < 2 ? 'eager' : 'lazy'}
-          fetchPriority={i === 0 ? 'high' : 'auto'}
+          fetchPriority={i === 0 ? 'high' : 'low'}
           className={`absolute inset-0 -z-20 h-full w-full object-cover saturate-[1.2] transition-opacity duration-[1500ms] ${i === active ? 'ken-burns opacity-100' : 'opacity-0'}`}
         />
-      ))}
+      ) : null))}
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/60 via-black/30 to-black/10" />
       <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-black/60 to-transparent" />
 

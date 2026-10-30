@@ -11,8 +11,8 @@ export const CONTACT = {
   address: 'No 58, Yen Nghia Ward, Ha Dong, Hanoi, Vietnam',
   companyEn: 'Vietlook Travel And Trade Company Limited',
   companyVi: 'Công ty TNHH Du lịch và Thương mại Vietlook',
-  businessNo: '[PENDING – mã số doanh nghiệp]',
-  licenseNo: '[PENDING – giấy phép lữ hành quốc tế]',
+  businessNo: '[PENDING – business registration no.]',
+  licenseNo: '[PENDING – international tour operator licence no.]',
 }
 
 // Google: số THẬT đọc từ Google Maps của công ty ngày 29/10/2026 (4.7★ · 31 đánh giá) – cập nhật tay khi số thay đổi.

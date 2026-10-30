@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useLang } from '../i18n'
 import { useTr } from '../loc'
@@ -12,6 +12,7 @@ import { usd } from '../components/TourCards'
 import { RealTourCard, CardSkeleton } from '../components/RealTours'
 import NotFound from './NotFound'
 import { useJson } from '../useJson'
+import { srcSet, CARD, FULL } from '../img'
 
 const MOSAIC = ['md:col-span-2', '', '', 'md:col-span-2']
 
@@ -23,7 +24,7 @@ export function Destinations() {
     <>
       <PageHero title={pg.title} sub={pg.sub} img="/img/tour/hoang-su-phi-ha-giang.webp" crumbs={[[t.nav.destinations]]} />
       {['north', 'central', 'south'].map((k, i) => (
-        <section key={k} id={k} className={`reveal reveal-fx scroll-mt-28 py-12 md:py-16 ${i % 2 ? 'bg-photo-light' : 'bg-white'}`}>
+        <section key={k} id={k} className={`reveal reveal-fx scroll-mt-28 py-12 md:py-16 ${i % 2 ? 'bg-photo-light' : 'bg-page'}`}>
           <div className="container-x">
             <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
               <div>
@@ -55,6 +56,27 @@ function CarRoutes() {
         {routes.map((x) => <RealTourCard key={x.id} x={x} />)}
       </div>
     </section>
+  )
+}
+
+// Hàng thẻ lướt ngang: 4 thẻ/hàng ở màn rộng (2 ở tablet, ~1 ở mobile), nút ← → để chuyển
+function CardRail({ items }) {
+  const ref = useRef(null)
+  const go = (dir) => {
+    const el = ref.current
+    if (el) el.scrollBy({ left: dir * el.clientWidth, behavior: 'smooth' })
+  }
+  const arrow = 'absolute top-1/3 z-10 hidden size-11 place-items-center rounded-full bg-white text-brand shadow-lg transition hover:bg-brand hover:text-white md:grid'
+  return (
+    <div className="relative">
+      {items.length > 4 && <button type="button" aria-label="Previous" onClick={() => go(-1)} className={`${arrow} -left-4`}><Icon name="chevL" size={18} /></button>}
+      {items.length > 4 && <button type="button" aria-label="Next" onClick={() => go(1)} className={`${arrow} -right-4`}><Icon name="chevR" size={18} /></button>}
+      <div ref={ref} className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-6 overflow-x-auto px-4 pb-2">
+        {items.map((x) => (
+          <div key={x.id} className="w-[85%] shrink-0 snap-start sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-4.5rem)/4)]"><RealTourCard x={x} /></div>
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -119,28 +141,31 @@ export function CarCity() {
           {data === undefined ? (
             <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3"><CardSkeleton /></div>
           ) : (
-            <div className="stagger grid gap-6 sm:grid-cols-2 xl:grid-cols-3">{routes.map((x) => <RealTourCard key={x.id} x={x} />)}</div>
+            <CardRail items={routes} />
           )}
         </div>
       </section>
 
       <section className="relative isolate overflow-hidden py-14 md:py-20">
         {/* Nền mờ: ảnh của chính thành phố, mép trên/dưới tan vào nền trắng */}
-        <img className="pointer-events-none absolute inset-0 -z-10 size-full object-cover opacity-[0.18] [mask-image:linear-gradient(to_bottom,transparent,#000_30%,#000_70%,transparent)]" alt="" src={c.img} loading="lazy" />
+        <img className="pointer-events-none absolute inset-0 -z-10 size-full object-cover opacity-[0.18] [mask-image:linear-gradient(to_bottom,transparent,#000_30%,#000_70%,transparent)]" alt="" src={c.img} srcSet={srcSet(c.img)} sizes={CARD} loading="lazy" />
         <div className="container-x">
           <h2 className="mb-5 text-center font-card text-xl font-bold">{cc.others}</h2>
           {/* Mỗi thành phố là 1 ô ảnh của chính nơi đó, chữ trắng trên lớp tối */}
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {CAR_CITIES.filter((x) => x.slug !== c.slug).map((x) => (
-              <li key={x.slug}>
-                <Link to={`/private-car/${x.slug}`} className="group relative isolate flex aspect-[4/3] items-end overflow-hidden rounded-2xl p-3 text-white shadow-md transition hover:-translate-y-1 hover:shadow-xl">
-                  <img className="absolute inset-0 -z-20 size-full object-cover transition duration-500 group-hover:scale-110" src={x.img} alt={tr(x.name)} loading="lazy" />
+          {/* Dải ảnh tự trượt ngang vô hạn (danh sách lặp 2 lần, chạy -50%), dừng khi rê chuột */}
+          <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)]">
+          <ul className="marquee flex w-max gap-3 pr-3 hover:[animation-play-state:paused]">
+            {[0, 1].flatMap((n) => CAR_CITIES.filter((x) => x.slug !== c.slug).map((x) => (
+              <li key={`${n}-${x.slug}`} className="w-56 shrink-0 sm:w-64" aria-hidden={n === 1 || undefined}>
+                <Link to={`/private-car/${x.slug}`} tabIndex={n === 1 ? -1 : undefined} className="group relative isolate flex aspect-[4/3] items-end overflow-hidden p-3 text-white shadow-md transition hover:shadow-xl">
+                  <img className="absolute inset-0 -z-20 size-full object-cover transition duration-500 group-hover:scale-110" src={x.img} srcSet={srcSet(x.img)} sizes={CARD} alt={tr(x.name)} loading="lazy" />
                   <span className="absolute inset-0 -z-10 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition group-hover:from-brand-dark/85" />
                   <span className="inline-flex items-center gap-1.5 font-card text-sm font-bold sm:text-base"><Icon name="pin" size={15} className="text-accent" /> {tr(x.name)}</span>
                 </Link>
               </li>
-            ))}
+            )))}
           </ul>
+          </div>
         </div>
       </section>
     </>
@@ -190,7 +215,7 @@ export function PrivateCar() {
               <select className="field" name="vehicle" defaultValue={pre?.name}>{VEHICLES.map((v) => <option key={v.key} value={v.name}>{tr(v.name)}</option>)}</select>
             </label>
             <label><span className="label">{pg.driverLang}</span>
-              <select className="field" name="lang"><option>English</option><option>中文</option><option>Tiếng Việt</option></select>
+              <select className="field" name="lang"><option>English</option><option>中文</option><option>Vietnamese</option></select>
             </label>
             <div className="sm:col-span-2"><button type="submit" className="btn btn-accent w-full sm:w-auto">{t.car.quote} <Icon name="send" size={16} /></button></div>
           </form>
@@ -221,6 +246,9 @@ function Steps({ title, steps, icon }) {
     </div>
   )
 }
+
+// Ảnh nền cho 5 thẻ các bước e-visa (bản 640px)
+const EVISA_IMGS = ['ha-long', 'hoi-an-9-copy', 'tam-coc-bich-dong', 'da-nang', 'airport-pick-up-one-way']
 
 export function VisaPage() {
   const { t, lang } = useLang()
@@ -343,9 +371,11 @@ export function VisaPage() {
         <CenterHead eyebrow="E-visa" title={pg.evisaTitle} sub={pg.evisaNote} />
         <ol className="stagger m-rail grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {pg.evisa.map((s, i) => (
-            <li key={s} className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5">
+            <li key={s} className="group relative isolate flex min-h-56 flex-col justify-end overflow-hidden rounded-2xl p-5 text-white shadow-md">
+              <img className="absolute inset-0 -z-20 size-full object-cover transition duration-700 group-hover:scale-105" src={`/img/tour/${EVISA_IMGS[i]}-640.webp`} srcSet={srcSet(`/img/tour/${EVISA_IMGS[i]}-640.webp`)} sizes={CARD} alt="" loading="lazy" />
+              <span className="absolute inset-0 -z-10 bg-gradient-to-t from-brand-dark/95 via-brand-dark/70 to-brand-dark/25" />
               <span className="font-serif text-4xl font-bold text-accent">{String(i + 1).padStart(2, '0')}</span>
-              <p className="mt-2 text-sm leading-relaxed">{s}</p>
+              <p className="mt-2 text-sm leading-relaxed text-white/95">{s}</p>
             </li>
           ))}
         </ol>

@@ -3,7 +3,7 @@ import Icon from './Icon'
 
 // Các mảnh giao diện dùng chung theo Link 3: sóng, ghi chú viết tay, tiêu đề khối.
 
-export function HeroWaves({ fill = '#ffffff' }) {
+export function HeroWaves({ fill = 'var(--color-page)' }) {
   return (
     <svg aria-hidden="true" className="hero-waves absolute inset-x-0 -bottom-px h-16 w-full md:h-24" preserveAspectRatio="none" viewBox="0 24 150 28">
       <defs>
@@ -22,7 +22,7 @@ export function HeroWaves({ fill = '#ffffff' }) {
 }
 
 // Dải sóng ngăn cách giữa hai khối (2 kiểu đường cong của Link 3).
-export function WaveDivider({ fill = '#ffffff', bg = 'transparent', variant = 'soft', flip = false, className = '' }) {
+export function WaveDivider({ fill = 'var(--color-page)', bg = 'transparent', variant = 'soft', flip = false, className = '' }) {
   const paths =
     variant === 'soft'
       ? ['M0 52 C220 12 420 18 620 50 S1000 80 1180 38 1380 20 1440 30 V100 H0 Z', 'M0 70 C180 30 320 30 480 62 S780 98 960 60 1260 22 1440 58 V100 H0 Z']

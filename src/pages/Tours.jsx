@@ -14,6 +14,7 @@ import RealTour from './RealTour'
 import MobileBookBar from '../components/MobileBookBar'
 import { RealTourCard, CardSkeleton } from '../components/RealTours'
 import { useJson, isInboundTour } from '../useJson'
+import { srcSet, CARD, FULL } from '../img'
 
 const REGION_KEYS = ['north', 'central', 'south']
 
@@ -240,7 +241,7 @@ export function TourDetail() {
                   <Icon name="chevD" size={18} className="ml-auto shrink-0 transition group-open:rotate-180" />
                 </summary>
                 <div className="grid gap-4 px-5 pb-5 sm:grid-cols-[180px_1fr] sm:items-center">
-                  {s.info && <img className="aspect-[16/9] w-full rounded-xl object-cover sm:aspect-[4/3]" src={s.info.img} alt={s.name} loading="lazy" />}
+                  {s.info && <img className="aspect-[16/9] w-full rounded-xl object-cover sm:aspect-[4/3]" src={s.info.img} srcSet={srcSet(s.info.img)} sizes={CARD} alt={s.name} loading="lazy" />}
                   <p className="text-muted">{s.info ? s.info[lang] : tr(p.highlights[0])}</p>
                 </div>
               </details>

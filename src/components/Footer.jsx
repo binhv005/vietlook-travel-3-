@@ -73,7 +73,7 @@ export function Footer() {
             <p className="mt-4 flex gap-3 text-lg text-white">
               <Icon name="pin" size={18} className="mt-1.5 shrink-0 text-accent" />
               <span>
-                {CONTACT.companyVi}
+                {CONTACT.companyEn}
                 <br />
                 <span className="text-base text-white/75">{CONTACT.companyEn}</span>
                 <br />

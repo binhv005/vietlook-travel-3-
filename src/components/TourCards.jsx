@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useLang } from '../i18n'
 import { useTr } from '../loc'
 import Icon from './Icon'
+import { srcSet, CARD, FULL } from '../img'
 
 export const usd = (n) => `USD ${n.toLocaleString('en-US')}`
 export const saving = (p) => (p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0)
@@ -30,7 +31,7 @@ export function FeaturedTour({ p }) {
   return (
     <article className="l1-card group grid overflow-hidden font-l1 transition duration-300 hover:shadow-xl md:grid-cols-[1.15fr_1fr]">
       <Link to={`/tours/${p.id}`} className="relative block aspect-[3/2] overflow-hidden md:aspect-auto md:min-h-full">
-        <img className="size-full object-cover transition duration-700 group-hover:scale-105" alt={p.title} src={p.img} loading="lazy" />
+        <img className="size-full object-cover transition duration-700 group-hover:scale-105" alt={p.title} src={p.img} srcSet={srcSet(p.img)} sizes={CARD} loading="lazy" />
         {pct > 0 && <span className="absolute right-4 top-4 rounded-full bg-white px-3 py-1 text-xs font-bold text-accent-600 shadow">{t.pkg.save} {pct}%</span>}        <span className="absolute bottom-4 left-4 rounded-lg bg-accent-500 px-3 py-2 text-center font-bold leading-none text-white shadow">
           <span className="block text-2xl">{p.days}</span>
           <span className="text-[0.7rem] uppercase tracking-wider">{t.pkg.days}</span>
@@ -38,7 +39,7 @@ export function FeaturedTour({ p }) {
       </Link>
       <div className="flex flex-col p-6 lg:p-8">
         <p className="text-xs font-semibold uppercase tracking-wide text-accent-500">{p.days} {t.pkg.days} {p.nights} {t.pkg.nights} · {t.pkg.private}</p>
-        <h3 className="mt-2 font-display text-2xl font-semibold leading-snug">
+        <h3 className="mt-2 font-serif text-2xl font-semibold leading-snug">
           <Link className="hover:text-brand-700" to={`/tours/${p.id}`}>{tr(p.title)}</Link>
         </h3>
         <p className="mt-3 flex items-start gap-1.5 text-sm text-muted">
@@ -69,7 +70,7 @@ export function TourCard({ p }) {
   return (
     <article className="l1-card group flex h-full flex-col font-l1 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       <Link to={`/tours/${p.id}`} className="relative block aspect-[3/2] overflow-hidden">
-        <img className="size-full object-cover transition duration-700 group-hover:scale-105" alt={p.title} src={p.img} loading="lazy" />
+        <img className="size-full object-cover transition duration-700 group-hover:scale-105" alt={p.title} src={p.img} srcSet={srcSet(p.img)} sizes={CARD} loading="lazy" />
         <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-brand-800 shadow-sm">
           <Icon name="clock" size={14} /> {p.days} {t.pkg.days} {p.nights} {t.pkg.nights}
         </span>

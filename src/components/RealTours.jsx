@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useLang } from '../i18n'
 import { formatPrice } from '../useJson'
 import Icon from './Icon'
+import { srcSet, CARD, FULL } from '../img'
 
 const GENERIC_TYPES = ['Tour Packages', 'Vietnam Tours', 'Travel Experience']
 
@@ -21,7 +22,7 @@ export function RealTourCard({ x }) {
   return (
     <article className="l1-card group flex h-full flex-col font-l1 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       <Link to={`/tours/${x.id}`} className="relative block aspect-[3/2] overflow-hidden bg-sand">
-        {x.img && <img className="size-full object-cover transition duration-700 group-hover:scale-105" alt={x.title} src={x.img} loading="lazy" />}
+        {x.img && <img className="size-full object-cover transition duration-700 group-hover:scale-105" alt={x.title} src={x.img} srcSet={srcSet(x.img)} sizes={CARD} loading="lazy" />}
         {dur && (
           <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-brand-800 shadow-sm">
             <Icon name="clock" size={14} /> {dur}

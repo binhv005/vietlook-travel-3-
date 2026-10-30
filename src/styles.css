@@ -16,6 +16,8 @@
   --color-ink: #17212f;
   --color-muted: #5a6575;
   --color-sand: #f7f3ec;
+  /* Màu nền trang (kem nhạt theo mẫu) – thẻ, form, ô nhập vẫn trắng */
+  --color-page: #fff4e6;
   --color-line: #e3e7ec;
   --color-mist: #f3f7fb;
   --color-sun: #f39a2b;
@@ -51,7 +53,7 @@
   --font-card: 'Poppins', 'Inter', 'Noto Sans SC', sans-serif;
   --font-hand: 'Caveat', 'Kaiti SC', 'STKaiti', cursive;
   --font-script: 'Great Vibes', cursive;
-  --font-display: 'Lora', 'Noto Serif SC', Georgia, serif;
+  --font-display: 'Playfair Display', 'Noto Serif SC', Georgia, serif;
   --font-l1: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
   --font-condensed: 'Oswald', 'Noto Sans SC', 'Arial Narrow', sans-serif;
 
@@ -66,7 +68,7 @@
   body {
     font-family: var(--font-sans);
     color: var(--color-ink);
-    background: #fff;
+    background: var(--color-page);
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
     /* Tránh dòng cuối chỉ còn 1 chữ (chữ mồ côi) ở mọi đoạn văn/mô tả/nút; kế thừa xuống toàn trang */

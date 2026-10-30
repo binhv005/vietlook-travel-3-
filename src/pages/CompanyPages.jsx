@@ -13,6 +13,7 @@ import { CenterHead, Eyebrow, Pagination, usePage } from '../components/ui'
 import Icon from '../components/Icon'
 import WpContent, { prepareContent } from '../components/WpContent'
 import NotFound from './NotFound'
+import { srcSet, CARD, FULL } from '../img'
 
 // PENDING: dự án hợp tác thật (docs mục 4 + mục 9 #6) – tạm dùng ảnh đoàn của Vietlook.
 const PROJECTS = ['/img/tour/tourdulichphuquoc4ngay3demtet1.webp', '/img/tour/coktail-crusie.webp', '/img/tour/welcome-vietlook.webp']
@@ -35,7 +36,7 @@ export function Partners() {
             {PROJECTS.map((img) => (
               <div key={img} className="@container">
                 <article className="h-full rounded-t-[50cqw] rounded-b-[1.25rem] border border-[#e8dcc6] bg-[#fbf7ef] p-3 text-center">
-                  <div className="arch-top border border-[#d9c7a3] p-1.5"><img className="arch-top aspect-[4/3.6] w-full object-cover" src={img} alt="" loading="lazy" /></div>
+                  <div className="arch-top border border-[#d9c7a3] p-1.5"><img className="arch-top aspect-[4/3.6] w-full object-cover" src={img} srcSet={srcSet(img)} sizes={CARD} alt="" loading="lazy" /></div>
                   <p className="py-4 text-sm text-muted">{pg.projectPending}</p>
                 </article>
               </div>
@@ -83,7 +84,7 @@ export function About() {
         <img className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 w-full min-w-[900px] select-none max-sm:left-1/2 max-sm:-translate-x-1/2" src="/nui-bg.webp" alt="" loading="lazy" />
         <div className="container-x grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="relative mx-auto w-full max-w-sm">
-            <img className="aspect-[4/5] w-full rounded-[2rem] object-cover shadow-2xl" src="/img/tour/exploring-the-culture-and-traditions-of-the-hmong-people-in-vietnam.webp" alt="" loading="lazy" />
+            <img className="aspect-[4/5] w-full rounded-[2rem] object-cover shadow-2xl" src="/img/tour/exploring-the-culture-and-traditions-of-the-hmong-people-in-vietnam.webp" srcSet={srcSet("/img/tour/exploring-the-culture-and-traditions-of-the-hmong-people-in-vietnam.webp")} sizes={CARD} alt="" loading="lazy" />
             <img className="bob absolute -bottom-6 -right-4 size-28 rounded-full shadow-xl ring-[6px] ring-white" src="/logo-mark.png" alt="" />
           </div>
           <div>
@@ -123,7 +124,7 @@ export function Contact() {
       <PlanFormL3 />
       <section className="reveal container-x py-14 md:py-20">
         <div className="stagger grid gap-5 md:grid-cols-3">
-          <div className={card}><span className={icon}><Icon name="pin" size={22} /></span><h3 className="mt-4 font-card text-lg font-bold">{pg.office}</h3><p className="mt-2 text-sm text-muted">{CONTACT.companyVi}<br />{CONTACT.address}</p></div>
+          <div className={card}><span className={icon}><Icon name="pin" size={22} /></span><h3 className="mt-4 font-card text-lg font-bold">{pg.office}</h3><p className="mt-2 text-sm text-muted">{CONTACT.companyEn}<br />{CONTACT.address}</p></div>
           <div className={card}><span className={icon}><Icon name="phone" size={22} /></span><h3 className="mt-4 font-card text-lg font-bold">Hotline · WhatsApp · WeChat · Zalo</h3><p className="mt-2 text-sm text-muted"><a className="font-semibold text-accent-500" href={CONTACT.phoneHref}>{CONTACT.phone}</a><br />{pg.hours}</p></div>
           <div className={card}><span className={icon}><Icon name="mail" size={22} /></span><h3 className="mt-4 font-card text-lg font-bold">Email</h3><p className="mt-2 text-sm"><a className="font-semibold text-accent-500" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></p></div>
         </div>
@@ -145,7 +146,7 @@ function GuideCta() {
   const pg = t.pages.guide
   return (
     <section className="relative isolate overflow-hidden bg-brand-dark py-14 text-center text-white md:py-20">
-      <img className="absolute inset-0 -z-10 size-full object-cover opacity-25" src="/img/tour/the-best-lotus-viewing-spots-in-ninh-binh.webp" alt="" loading="lazy" />
+      <img className="absolute inset-0 -z-10 size-full object-cover opacity-25" src="/img/tour/the-best-lotus-viewing-spots-in-ninh-binh.webp" srcSet={srcSet("/img/tour/the-best-lotus-viewing-spots-in-ninh-binh.webp")} sizes={CARD} alt="" loading="lazy" />
       <div className="container-x">
         <h2 className="font-serif text-3xl font-bold md:text-4xl">{pg.ctaTitle}</h2>
         <p className="mt-3 text-white/80">{pg.ctaSub}</p>
@@ -437,7 +438,7 @@ export function Policy() {
           ) : (
             <p className="rounded-xl bg-sand p-5 text-lg">{pg.pending}</p>
           )}
-          <p className="leading-relaxed"><strong>{CONTACT.companyVi}</strong><br />{CONTACT.companyEn}<br />{CONTACT.address}<br />{CONTACT.phone} · {CONTACT.email}</p>
+          <p className="leading-relaxed"><strong>{CONTACT.companyEn}</strong><br />{CONTACT.address}<br />{CONTACT.phone} · {CONTACT.email}</p>
         </div>
       </section>
     </>

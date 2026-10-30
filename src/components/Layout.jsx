@@ -7,6 +7,7 @@ import { HeroWaves } from './ui'
 import CookieBanner from './CookieBanner'
 import { trackPageView } from '../tracking'
 import Icon from './Icon'
+import { srcSet } from '../img'
 import { RotatingBadge } from './Hero'
 
 // Về đầu trang khi đổi route, hoặc cuộn tới #hash nếu có.
@@ -100,7 +101,7 @@ export function PageHero({ title: rawTitle, sub: rawSub, img, crumbs = [], cente
       style={ratio ? { '--hero-ratio': ratio } : undefined}
       className="relative isolate flex min-h-[420px] flex-col justify-end overflow-hidden md:min-h-[max(520px,min(calc(100vw/var(--hero-ratio,2.4)),100vh))]"
     >
-      <img className="absolute inset-0 -z-20 h-full w-full object-cover saturate-[1.1]" src={img} alt="" fetchPriority="high" onLoad={(e) => setRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)} />
+      <img className="absolute inset-0 -z-20 h-full w-full object-cover saturate-[1.1]" src={img} srcSet={srcSet(img)} sizes="100vw" alt="" fetchPriority="high" onLoad={(e) => setRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)} />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/65 via-black/35 to-black/15" />
       <div className="absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-black/50 to-transparent" />
       <div className={`hero-in container-x pb-24 pt-48 text-white md:pb-32 md:pt-52 ${center ? 'text-center' : ''}`}>
